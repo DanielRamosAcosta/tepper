@@ -25,11 +25,7 @@ export class TepperRunner {
   private static async instantiateExpress(
     baseUrlServerOrExpress: Express,
   ): Promise<Server> {
-    const app = baseUrlServerOrExpress
-    const address = "127.0.0.1"
-    const port = 8080
-
-    return await listenAppPromised(app, port, address)
+    return await listenAppPromised(baseUrlServerOrExpress, 0, "127.0.0.1")
   }
 
   public static async launchServerAndRun(
@@ -120,6 +116,6 @@ export class TepperRunner {
       return
     }
 
-    await listenServerPromised(server, 8080, "127.0.0.1")
+    await listenServerPromised(server, 0, "127.0.0.1")
   }
 }

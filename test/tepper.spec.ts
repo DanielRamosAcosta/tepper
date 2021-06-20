@@ -181,8 +181,10 @@ describe("tepper", () => {
       .run()
       .catch((error) => error)
 
-    expect(error.message).toEqual(
-      "request to http://127.0.0.1:8080/ failed, reason: socket hang up",
+    expect(error.message).toMatch(
+      new RegExp(
+        "request to http://127.0.0.1:(\\d+)/ failed, reason: socket hang up",
+      ),
     )
   })
 
@@ -201,7 +203,9 @@ describe("tepper", () => {
       .run()
       .catch((error) => error)
 
-    expect(error.message).toEqual("network timeout at: http://127.0.0.1:8080/")
+    expect(error.message).toMatch(
+      new RegExp("network timeout at: http://127.0.0.1:(\\d+)/"),
+    )
   })
 
   it("sends configured jwt", async () => {
