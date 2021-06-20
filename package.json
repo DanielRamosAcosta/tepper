@@ -1,6 +1,6 @@
 {
   "name": "tepper",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Modern library for testing HTTP servers",
   "main": "dist/tepper.js",
   "engines": {
