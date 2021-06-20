@@ -26,3 +26,5 @@ build/
 
 lib
 .vscode
+
+dist

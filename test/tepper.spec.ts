@@ -1,6 +1,6 @@
 import { Server } from "http"
 import express from "express"
-import { tepper } from "../src/tepper"
+import tepper from "../src/tepper"
 import { closePromised } from "../src/utils/closePromised"
 import { listenPromised } from "../src/utils/listenPromised"
 

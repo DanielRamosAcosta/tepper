@@ -1,7 +1,7 @@
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { TepperBuilder } from "./TepperBuilder"
 
-export function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
+export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
   return new TepperBuilder(baseUrlExpressOrServer, {
     method: "GET",
     path: "/",

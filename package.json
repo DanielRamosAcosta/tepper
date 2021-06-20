@@ -2,7 +2,7 @@
   "name": "tepper",
   "version": "0.1.1",
   "description": "Modern library for testing HTTP servers",
-  "main": "lib/src/tepper.js",
+  "main": "dist/tepper.js",
   "engines": {
     "node": ">= 12.13.0"
   },
@@ -12,7 +12,7 @@
   "license": "ISC",
   "scripts": {
     "clean": "rimraf coverage build tmp",
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.build.json",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts --fix ./src",
     "test": "jest",
