@@ -9,7 +9,7 @@
   "contributors": [
     "Daniel Ramos <danielramosacosta@hotmail.com>"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "clean": "rimraf coverage build tmp",
     "build": "tsc -p ./tsconfig.build.json",
