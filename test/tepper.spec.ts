@@ -293,6 +293,16 @@ describe("tepper", () => {
       },
     )
   })
+
+  it("throws an error if using the builder as a promise", async () => {
+    try {
+      await tepper("").expect(200)
+    } catch (error) {
+      expect(error.message).toEqual(
+        "Do not place await in the builder, use .run() method",
+      )
+    }
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {

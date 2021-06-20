@@ -101,4 +101,8 @@ export class TepperBuilder {
       this.config,
     )
   }
+
+  private then() {
+    throw new Error("Do not place await in the builder, use .run() method")
+  }
 }
