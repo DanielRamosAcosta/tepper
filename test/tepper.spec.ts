@@ -1,8 +1,8 @@
-import { Server } from "http"
+import http, { Server } from "http"
 import express from "express"
 import tepper from "../src/tepper"
 import { closePromised } from "../src/utils/closePromised"
-import { listenPromised } from "../src/utils/listenPromised"
+import { listenAppPromised } from "../src/utils/listenPromised"
 
 describe("tepper", () => {
   it("fires up the app on an ephemeral port", async () => {
@@ -38,7 +38,7 @@ describe("tepper", () => {
       res.send("hey")
     })
 
-    const server = await listenPromised(app, 4000, "127.0.0.1")
+    const server = await listenAppPromised(app, 4000, "127.0.0.1")
 
     const { text, status } = await tepper(server).get("/").run()
 
@@ -55,9 +55,26 @@ describe("tepper", () => {
       res.send("hey")
     })
 
-    const server = await listenPromised(app, 4000, "127.0.0.1")
+    const server = await listenAppPromised(app, 4000, "127.0.0.1")
 
     const { text, status } = await tepper(server).get("/hello").run()
+
+    expect(status).toEqual(200)
+    expect(text).toEqual("hey")
+
+    await expectServerToBeClosed(server)
+  })
+
+  it("works with a server that is not listening", async () => {
+    const app = express()
+
+    app.get("/", (_req, res) => {
+      res.send("hey")
+    })
+
+    const server = http.createServer(app)
+
+    const { text, status } = await tepper(server).get("/").run()
 
     expect(status).toEqual(200)
     expect(text).toEqual("hey")
@@ -72,7 +89,7 @@ describe("tepper", () => {
       res.send("hey")
     })
 
-    const server = await listenPromised(app, 4001, "127.0.0.1")
+    const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
     const { text, status } = await tepper(`http://localhost:4001`)
       .get("/")
@@ -91,7 +108,7 @@ describe("tepper", () => {
       res.send("hey")
     })
 
-    const server = await listenPromised(app, 4001, "127.0.0.1")
+    const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
     const { text, status } = await tepper(`http://localhost:4001`)
       .get("/hello")

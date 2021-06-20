@@ -1,6 +1,6 @@
 import { Express } from "express"
 import { Server } from "http"
-import { listenPromised } from "./utils/listenPromised"
+import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
 import fetch from "node-fetch"
@@ -29,7 +29,7 @@ export class TepperRunner {
     const address = "127.0.0.1"
     const port = 8080
 
-    return await listenPromised(app, port, address)
+    return await listenAppPromised(app, port, address)
   }
 
   public static async launchServerAndRun(
@@ -44,6 +44,8 @@ export class TepperRunner {
 
     if (isServer(baseUrlServerOrExpress)) {
       const server = baseUrlServerOrExpress
+
+      await this.ensureServerIsListening(server)
 
       try {
         return await this.launchServerAndRun(getBaseUrl(server), config)
@@ -111,5 +113,13 @@ export class TepperRunner {
     if (config.expectedStatus) {
       expect(result.status).toEqual(config.expectedStatus)
     }
+  }
+
+  private static async ensureServerIsListening(server: Server) {
+    if (server.listening) {
+      return
+    }
+
+    await listenServerPromised(server, 8080, "127.0.0.1")
   }
 }
