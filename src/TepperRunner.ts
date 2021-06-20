@@ -80,7 +80,7 @@ export class TepperRunner {
       status: response.status,
       headers: response.headers,
       text,
-      body: safeJsonParse(text) ?? {},
+      body: safeJsonParse(text) || {},
     }
 
     if (result.status === 302 && config.redirects > 0) {
