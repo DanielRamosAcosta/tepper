@@ -17,12 +17,12 @@ This library is a modern implementation of supertest, typescript-first and promi
 Install tepper as an npm module and save it to your package.json file as a development dependency:
 
 ```bash
-npm install --save-dev supertest
+npm install --save-dev tepper
 ```
 
 # Example
 
-You may pass an `http.Server`, or a `Function` to `request()` - if the server is not
+You may pass an `http.Server`, or a `Function` to `tepper()` - if the server is not
 already listening for connections then it is bound to an ephemeral port for you so
 there is no need to keep track of ports.
 
