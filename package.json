@@ -2,7 +2,7 @@
   "name": "tepper",
   "version": "0.1.1",
   "description": "Modern library for testing HTTP servers",
-  "main": "lib/tepper.js",
+  "main": "lib/src/tepper.js",
   "engines": {
     "node": ">= 12.13.0"
   },

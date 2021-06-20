@@ -21,6 +21,5 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "isolatedModules": true
-  },
-  "exclude": ["__test__", "node_modules"]
+  }
 }

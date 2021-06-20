@@ -257,6 +257,21 @@ describe("tepper", () => {
       await expect(promise).rejects.toBeDefined()
     })
   })
+
+  describe("http verbs", () => {
+    it.each([["get"], ["post"], ["put"], ["patch"], ["delete"]] as const)(
+      "works with %s",
+      async (asd) => {
+        const app = express()
+
+        app[asd]("/", (_req, res) => {
+          res.send()
+        })
+
+        await tepper(app)[asd]("/").expect(200).run()
+      },
+    )
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {
