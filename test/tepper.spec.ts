@@ -223,6 +223,21 @@ describe("tepper", () => {
     expect(text).toEqual(`Bearer ${jwt}`)
   })
 
+  it("sends all the query params", async () => {
+    const app = express()
+
+    app.get("/", (req, res) => {
+      res.send(req.query)
+    })
+
+    const { body } = await tepper(app)
+      .get("")
+      .withQuery({ hello: "world" })
+      .run()
+
+    expect(body).toEqual({ hello: "world" })
+  })
+
   describe("expectations", () => {
     it("fails if it's not the expected body", async () => {
       const app = express()
@@ -296,6 +311,8 @@ describe("tepper", () => {
 
   it("throws an error if using the builder as a promise", async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       await tepper("").expect(200)
     } catch (error) {
       expect(error.message).toEqual(

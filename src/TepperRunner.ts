@@ -1,9 +1,10 @@
 import { Express } from "express"
 import { Server } from "http"
+import fetch from "node-fetch"
+import qs from "querystring"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
-import fetch from "node-fetch"
 import { safeJsonParse } from "./utils/safeJsonParse"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
@@ -59,7 +60,11 @@ export class TepperRunner {
     endpoint: string,
     config: TepperConfig,
   ): Promise<TepperResult> {
-    const response = await fetch(endpoint, {
+    const endpointWithQuery = config.query
+      ? endpoint.concat("?").concat(qs.stringify(config.query))
+      : endpoint
+
+    const response = await fetch(endpointWithQuery, {
       method: config.method,
       ...(config.body ? { body: JSON.stringify(config.body) } : {}),
       headers: {
@@ -78,7 +83,7 @@ export class TepperRunner {
       status: response.status,
       headers: response.headers,
       text,
-      body: safeJsonParse(text) || {},
+      body: safeJsonParse(text) || null,
     }
 
     if (result.status === 302 && config.redirects > 0) {

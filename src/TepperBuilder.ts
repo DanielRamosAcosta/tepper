@@ -2,14 +2,15 @@ import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
+import { ParsedUrlQueryInput } from "querystring"
 
 export class TepperBuilder {
-  constructor(
+  public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,
   ) {}
 
-  get(path: string) {
+  public get(path: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "GET",
@@ -17,7 +18,7 @@ export class TepperBuilder {
     })
   }
 
-  post(path: string) {
+  public post(path: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "POST",
@@ -25,7 +26,7 @@ export class TepperBuilder {
     })
   }
 
-  put(path: string) {
+  public put(path: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PUT",
@@ -33,7 +34,7 @@ export class TepperBuilder {
     })
   }
 
-  patch(path: string) {
+  public patch(path: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PATCH",
@@ -41,7 +42,7 @@ export class TepperBuilder {
     })
   }
 
-  delete(path: string) {
+  public delete(path: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "DELETE",
@@ -49,53 +50,72 @@ export class TepperBuilder {
     })
   }
 
-  send(body: Record<string, unknown>) {
+  public send(body: Record<string, unknown>) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       body,
     })
   }
 
-  redirects(amount: number) {
+  public redirects(amount: number) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       redirects: amount,
     })
   }
 
-  timeout(timeout: number) {
+  public timeout(timeout: number) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       timeout,
     })
   }
 
-  authWith(jwt: string) {
+  public authWith(jwt: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       jwt,
     })
   }
 
-  expect(target: string | number | Record<string, unknown>) {
+  public withQuery(query: ParsedUrlQueryInput) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      query,
+    })
+  }
+
+  public expect(target: string | number | Record<string, unknown>) {
     if (typeof target === "number") {
-      return new TepperBuilder(this.baseUrlServerOrExpress, {
-        ...this.config,
-        expectedStatus: target,
-      })
+      return this.expectStatus(target)
     }
 
-    if (typeof target === "string" || typeof target === "object") {
-      return new TepperBuilder(this.baseUrlServerOrExpress, {
-        ...this.config,
-        expectedBody: target,
-      })
+    if (typeof target === "string") {
+      return this.expectBody(target)
+    }
+
+    if (typeof target === "object") {
+      return this.expectBody(target)
     }
 
     throw new Error(`I dont know what to expect from ${target}`)
   }
 
-  async run(): Promise<TepperResult> {
+  public expectStatus(status: number) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      expectedStatus: status,
+    })
+  }
+
+  public expectBody(body: string | Record<string, unknown>) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      expectedBody: body,
+    })
+  }
+
+  public async run(): Promise<TepperResult> {
     return TepperRunner.launchServerAndRun(
       this.baseUrlServerOrExpress,
       this.config,
