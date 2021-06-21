@@ -15,6 +15,7 @@
     "build": "tsc -p ./tsconfig.build.json",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts --fix ./src",
+    "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
