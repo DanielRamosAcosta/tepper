@@ -50,7 +50,7 @@ export class TepperBuilder {
     })
   }
 
-  public send(body: Record<string, unknown>) {
+  public send(body: Record<string, unknown> | Array<unknown>) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       body,
@@ -85,7 +85,9 @@ export class TepperBuilder {
     })
   }
 
-  public expect(target: string | number | Record<string, unknown>) {
+  public expect(
+    target: string | number | Record<string, unknown> | Array<unknown>,
+  ) {
     if (typeof target === "number") {
       return this.expectStatus(target)
     }
@@ -108,7 +110,7 @@ export class TepperBuilder {
     })
   }
 
-  public expectBody(body: string | Record<string, unknown>) {
+  public expectBody(body: string | Record<string, unknown> | Array<unknown>) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       expectedBody: body,

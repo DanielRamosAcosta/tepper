@@ -120,7 +120,7 @@ describe("tepper", () => {
     await closePromised(server)
   })
 
-  it("should work with .send() etc", async () => {
+  it("should work with .send()", async () => {
     const app = express()
 
     app.use(express.json())
@@ -130,6 +130,18 @@ describe("tepper", () => {
     })
 
     await tepper(app).post("/").send({ name: "john" }).expect("john").run()
+  })
+
+  it("should work with .send() with an array", async () => {
+    const app = express()
+
+    app.use(express.json())
+
+    app.post("/", (req, res) => {
+      res.send(req.body)
+    })
+
+    await tepper(app).post("/").send([1, 2, 3]).expect([1, 2, 3]).run()
   })
 
   it("should work when unbuffered", async () => {
