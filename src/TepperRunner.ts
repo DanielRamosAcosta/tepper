@@ -86,6 +86,12 @@ export class TepperRunner {
       body: safeJsonParse(text) || null,
     }
 
+    if (config.debug?.body) {
+      console.dir(result.body, {
+        depth: Infinity,
+      })
+    }
+
     if (result.status === 302 && config.redirects > 0) {
       const newLocation = result.headers.get("Location") as string
 

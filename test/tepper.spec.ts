@@ -332,6 +332,22 @@ describe("tepper", () => {
       )
     }
   })
+
+  it("should work with .send() with an array", async () => {
+    jest.spyOn(console, "dir").mockImplementation(jest.fn())
+
+    const app = express()
+
+    app.use(express.json())
+
+    app.post("/", (req, res) => {
+      res.send(req.body)
+    })
+
+    await tepper(app).post("/").send([1, 2, 3]).debug().run()
+
+    expect(console.dir).toHaveBeenCalledTimes(1)
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {

@@ -3,7 +3,7 @@ import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { ParsedUrlQueryInput } from "querystring"
-
+import { DebugOptions } from "./DebugOptions"
 export class TepperBuilder {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -82,6 +82,18 @@ export class TepperBuilder {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       query,
+    })
+  }
+
+  public debug({ body = true }: Partial<DebugOptions> = {}) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      debug: this.config.debug
+        ? {
+            ...this.config.debug,
+            body,
+          }
+        : { body },
     })
   }
 

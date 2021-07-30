@@ -1,4 +1,5 @@
 import { ParsedUrlQueryInput } from "querystring"
+import { DebugOptions } from "./DebugOptions"
 
 export type TepperConfig = {
   readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -14,4 +15,5 @@ export type TepperConfig = {
     | null
   readonly timeout: number | null
   readonly jwt: string | null
+  readonly debug: Partial<DebugOptions> | null
 }
