@@ -86,7 +86,7 @@ export class TepperRunner {
       body: safeJsonParse(text) || null,
     }
 
-    if (config.debug?.body) {
+    if (config.debug && config.debug.body) {
       console.dir(result.body, {
         depth: Infinity,
       })
