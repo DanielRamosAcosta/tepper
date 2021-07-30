@@ -12,5 +12,6 @@ export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
     jwt: null,
     expectedBody: null,
     expectedStatus: null,
+    debug: null,
   })
 }
