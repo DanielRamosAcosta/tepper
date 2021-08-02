@@ -6,6 +6,8 @@
   "engines": {
     "node": ">= 12.13.0"
   },
+  "homepage": "https://github.com/DanielRamosAcosta/tepper",
+  "repository": "https://github.com/DanielRamosAcosta/tepper",
   "contributors": [
     "Daniel Ramos <danielramosacosta@hotmail.com>"
   ],
