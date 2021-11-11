@@ -1,9 +1,9 @@
+import { ParsedUrlQueryInput } from "querystring"
+import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
+import { DebugOptions } from "./DebugOptions"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import { ParsedUrlQueryInput } from "querystring"
-import { DebugOptions } from "./DebugOptions"
 export class TepperBuilder {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -50,7 +50,7 @@ export class TepperBuilder {
     })
   }
 
-  public send(body: Record<string, unknown> | Array<unknown>) {
+  public send(body: string | object) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       body,

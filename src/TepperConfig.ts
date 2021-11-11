@@ -4,7 +4,7 @@ import { DebugOptions } from "./DebugOptions"
 export type TepperConfig = {
   readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
   readonly path: string
-  readonly body: Record<string, unknown> | Array<unknown> | null
+  readonly body: string | object | null
   readonly query: ParsedUrlQueryInput | null
   readonly redirects: number
   readonly expectedStatus: number | null
