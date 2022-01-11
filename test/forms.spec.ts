@@ -11,7 +11,9 @@ describe("forms", () => {
       upload.single("document"),
       (req, res) => {
         res.send({
-          document: req.file?.buffer?.toString("base64"),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          document: req.file.buffer.toString("base64"),
           ...req.body,
         })
       },
