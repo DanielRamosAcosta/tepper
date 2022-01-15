@@ -4,46 +4,46 @@ import { DebugOptions } from "./DebugOptions"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
-export class TepperBuilder {
+export class TepperBuilder<ExpectedResponse> {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,
   ) {}
 
-  public get(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public get<ExpectedResponse = any>(path: string) {
+    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "GET",
       path,
     })
   }
 
-  public post(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public post<ExpectedResponse = any>(path: string) {
+    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "POST",
       path,
     })
   }
 
-  public put(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public put<ExpectedResponse = any>(path: string) {
+    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PUT",
       path,
     })
   }
 
-  public patch(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public patch<ExpectedResponse = any>(path: string) {
+    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PATCH",
       path,
     })
   }
 
-  public delete(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public delete<ExpectedResponse = any>(path: string) {
+    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "DELETE",
       path,
@@ -129,7 +129,7 @@ export class TepperBuilder {
     })
   }
 
-  public async run(): Promise<TepperResult> {
+  public async run(): Promise<TepperResult<ExpectedResponse>> {
     return TepperRunner.launchServerAndRun(
       this.baseUrlServerOrExpress,
       this.config,

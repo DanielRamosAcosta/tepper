@@ -348,6 +348,32 @@ describe("tepper", () => {
 
     expect(console.dir).toHaveBeenCalledTimes(1)
   })
+
+  it("should support receiving an expected response type", async () => {
+    type User = {
+      name: string,
+      age: number
+      confirmed: boolean,
+    }
+
+    const app = express()
+
+    app.use(express.json())
+
+    app.get("/me", (req, res) => {
+      res.send({
+        name: "Jack Sparrow",
+        age: 30,
+        confirmed: true,
+      })
+    })
+
+    const { body } = await tepper(app).get<User>("/me").run()
+
+    expect(body.name).toEqual("Jack Sparrow")
+    expect(body.age).toBe(30)
+    expect(body.confirmed).toEqual(true)
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {

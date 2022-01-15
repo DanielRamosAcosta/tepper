@@ -1,9 +1,9 @@
 import { Headers } from "node-fetch"
 
-export type TepperResult = {
+export type TepperResult<ExpectedResponse> = {
   text: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  body: any
+  body: ExpectedResponse
   status: number
   headers: Headers
 }
