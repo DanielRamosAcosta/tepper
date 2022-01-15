@@ -18,40 +18,40 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
     private readonly config: TepperConfig,
   ) {}
 
-  public get<ExpectedResponse = any>(path: string) {
-    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
+  public get<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "GET",
       path,
     })
   }
 
-  public post<ExpectedResponse = any>(path: string) {
-    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
+  public post<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "POST",
       path,
     })
   }
 
-  public put<ExpectedResponse = any>(path: string) {
-    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
+  public put<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PUT",
       path,
     })
   }
 
-  public patch<ExpectedResponse = any>(path: string) {
-    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
+  public patch<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PATCH",
       path,
     })
   }
 
-  public delete<ExpectedResponse = any>(path: string) {
-    return new TepperBuilder<ExpectedResponse>(this.baseUrlServerOrExpress, {
+  public delete<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "DELETE",
       path,
