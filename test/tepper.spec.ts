@@ -374,6 +374,27 @@ describe("tepper", () => {
     expect(body.age).toBe(30)
     expect(body.confirmed).toEqual(true)
   })
+
+  it("should has typing for possible errors being returned", async () => {
+    const app = express()
+
+    app.use(express.json())
+
+    app.get("/users/:id", (req, res) => {
+      res.send({
+        error: {
+          status: 404,
+          code: "USER_NOT_FOUND",
+          message: `Could not find user with ID: ${req.params.id}`,
+        }}).status(404)
+    })
+
+    const { body } = await tepper(app).get("/users/15").run()
+
+    expect(body.error.code).toEqual("USER_NOT_FOUND")
+    expect(body.error.message).toEqual("Could not find user with ID: 15")
+    expect(body.error.status).toBe(404)
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {

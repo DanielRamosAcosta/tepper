@@ -4,7 +4,15 @@ import { DebugOptions } from "./DebugOptions"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
-export class TepperBuilder<ExpectedResponse> {
+
+type StandardError = {
+  error: {
+    status: number,
+    code: string,
+    message: string
+  }
+}
+export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,
@@ -129,7 +137,7 @@ export class TepperBuilder<ExpectedResponse> {
     })
   }
 
-  public async run(): Promise<TepperResult<ExpectedResponse>> {
+  public async run(): Promise<TepperResult<ExpectedResponse, ErrorType>> {
     return TepperRunner.launchServerAndRun(
       this.baseUrlServerOrExpress,
       this.config,
