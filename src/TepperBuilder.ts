@@ -138,7 +138,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public async run(): Promise<TepperResult<ExpectedResponse, ErrorType>> {
-    return TepperRunner.launchServerAndRun(
+    return TepperRunner.launchServerAndRun<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       this.config,
     )
