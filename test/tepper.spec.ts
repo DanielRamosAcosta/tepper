@@ -348,6 +348,93 @@ describe("tepper", () => {
 
     expect(console.dir).toHaveBeenCalledTimes(1)
   })
+
+  it("should support receiving an expected response type", async () => {
+    type User = {
+      name: string,
+      age: number
+      confirmed: boolean,
+    }
+
+    const app = express()
+
+    app.use(express.json())
+
+    app.get("/me", (req, res) => {
+      res.send({
+        name: "Jack Sparrow",
+        age: 30,
+        confirmed: true,
+      })
+    })
+
+    const { body } = await tepper(app).get<User>("/me").run()
+
+    expect(body.name).toEqual("Jack Sparrow")
+    expect(body.age).toBe(30)
+    expect(body.confirmed).toEqual(true)
+  })
+
+  it("should has typing for possible errors being returned", async () => {
+    type User = {
+      name: string,
+      age: number
+      confirmed: boolean,
+    }
+
+    const app = express()
+
+    app.use(express.json())
+
+    app.get("/users/:id", (req, res) => {
+      res.send({
+        error: {
+          status: 404,
+          code: "USER_NOT_FOUND",
+          message: `Could not find user with ID: ${req.params.id}`,
+        }}).status(404)
+    })
+
+    const { body } = await tepper(app).get<User>("/users/15").run()
+
+    expect(body.error.code).toEqual("USER_NOT_FOUND")
+    expect(body.error.message).toEqual("Could not find user with ID: 15")
+    expect(body.error.status).toBe(404)
+    expect(body.name).toBeUndefined()
+    expect(body.age).toBeUndefined()
+    expect(body.confirmed).toBeUndefined()
+  })
+
+  it("should support receiving a custom error type for possible errors being returned", async () => {
+    type CustomError = {
+      statusCode: number,
+      errorMessage: string,
+    }
+    type User = {
+      name: string,
+      age: number
+      confirmed: boolean,
+    }
+
+    const app = express()
+
+    app.use(express.json())
+
+    app.get("/users/:id", (req, res) => {
+      res.send({
+          statusCode: 404,
+          errorMessage: `Could not find user with ID: ${req.params.id}`,
+        }).status(404)
+    })
+
+    const { body } = await tepper(app).get<User, CustomError>("/users/15").run()
+
+    expect(body.errorMessage).toEqual("Could not find user with ID: 15")
+    expect(body.statusCode).toBe(404)
+    expect(body.name).toBeUndefined()
+    expect(body.age).toBeUndefined()
+    expect(body.confirmed).toBeUndefined()
+  })
 })
 
 async function expectServerToBeClosed(server: Server) {

@@ -29,10 +29,10 @@ export class TepperRunner {
     return await listenAppPromised(baseUrlServerOrExpress, 0, "127.0.0.1")
   }
 
-  public static async launchServerAndRun(
+  public static async launchServerAndRun<ExpectedResponse, ErrorType>(
     baseUrlServerOrExpress: BaseUrlServerOrExpress,
     config: TepperConfig,
-  ): Promise<TepperResult> {
+  ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
     if (isExpressApp(baseUrlServerOrExpress)) {
       const server = await this.instantiateExpress(baseUrlServerOrExpress)
 
@@ -56,10 +56,10 @@ export class TepperRunner {
     return this.run(endpoint, config)
   }
 
-  private static async run(
+  private static async run<ExpectedResponse, ErrorType>(
     endpoint: string,
     config: TepperConfig,
-  ): Promise<TepperResult> {
+  ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
     const endpointWithQuery = config.query
       ? endpoint.concat("?").concat(qs.stringify(config.query))
       : endpoint
@@ -79,11 +79,11 @@ export class TepperRunner {
 
     const text = await response.text()
 
-    const result: TepperResult = {
+    const result: TepperResult<ExpectedResponse, ErrorType> = {
       status: response.status,
       headers: response.headers,
       text,
-      body: safeJsonParse(text) || null,
+      body: safeJsonParse<ExpectedResponse & ErrorType>(text) as ExpectedResponse & ErrorType
     }
 
     if (config.debug && config.debug.body) {
@@ -103,12 +103,12 @@ export class TepperRunner {
       })
     }
 
-    this.runExpectations(result, config)
+    this.runExpectations<ExpectedResponse, ErrorType>(result, config)
 
     return result
   }
 
-  private static runExpectations(result: TepperResult, config: TepperConfig) {
+  private static runExpectations<ExpectedResponse, ErrorType>(result: TepperResult<ExpectedResponse, ErrorType>, config: TepperConfig) {
     if (config.expectedBody) {
       if (typeof config.expectedBody === "string") {
         expect(result.text).toEqual(config.expectedBody)
