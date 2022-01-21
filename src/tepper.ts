@@ -6,6 +6,7 @@ export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
     method: "GET",
     path: "/",
     body: null,
+    isForm: false,
     query: null,
     redirects: 0,
     timeout: null,

@@ -57,6 +57,14 @@ export class TepperBuilder {
     })
   }
 
+  public sendForm(form: object) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      body: form,
+      isForm: true,
+    })
+  }
+
   public redirects(amount: number) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,

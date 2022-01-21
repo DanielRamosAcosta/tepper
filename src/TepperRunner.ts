@@ -2,6 +2,8 @@ import { Express } from "express"
 import { Server } from "http"
 import fetch from "node-fetch"
 import qs from "querystring"
+import { Readable } from "stream"
+import { FormDataEncoder } from "form-data-encoder"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -9,6 +11,7 @@ import { safeJsonParse } from "./utils/safeJsonParse"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
+import { objectToFormData } from "./forms/objectToFormData"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -64,13 +67,13 @@ export class TepperRunner {
       ? endpoint.concat("?").concat(qs.stringify(config.query))
       : endpoint
 
+    const { body, headers } = this.insertBodyIfPresent(config)
+
     const response = await fetch(endpointWithQuery, {
       method: config.method,
-      ...(config.body ? { body: JSON.stringify(config.body) } : {}),
+      ...(body ? { body } : {}),
       headers: {
-        ...(typeof config.body === "object"
-          ? { "Content-Type": " application/json" }
-          : {}),
+        ...headers,
         ...(config.jwt ? { Authorization: `Bearer ${config.jwt}` } : {}),
       },
       redirect: "manual",
@@ -106,6 +109,32 @@ export class TepperRunner {
     this.runExpectations(result, config)
 
     return result
+  }
+
+  private static insertBodyIfPresent(config: TepperConfig): {
+    body: any
+    headers: object
+  } {
+    const body = config.body
+    if (!body) {
+      return { body: null, headers: {} }
+    }
+
+    if (typeof body === "object") {
+      if (config.isForm) {
+        const form = objectToFormData(body)
+        const encoder = new FormDataEncoder(form)
+
+        return { body: Readable.from(encoder), headers: encoder.headers }
+      }
+
+      return {
+        body: JSON.stringify(body),
+        headers: { "Content-Type": " application/json" },
+      }
+    }
+
+    return { body, headers: {} }
   }
 
   private static runExpectations(result: TepperResult, config: TepperConfig) {
