@@ -3,19 +3,15 @@ import {
   objectToFormData,
   toPlainForm,
 } from "./objectToFormData"
-import fs from "fs"
 
 describe("objectToFormData", () => {
   it("works with a simple object", () => {
     const object = { name: "Peter", surname: "Smith" }
 
     const form = objectToFormData(object)
-    const data = form.getBuffer().toString("utf-8")
 
-    expect(data).toContain(`Content-Disposition: form-data; name="name"`)
-    expect(data).toContain(`Peter`)
-    expect(data).toContain(`Content-Disposition: form-data; name="surname"`)
-    expect(data).toContain(`Smith`)
+    expect(form.get("name")).toEqual("Peter")
+    expect(form.get("surname")).toEqual("Smith")
   })
 
   it("works with nested keys", () => {
@@ -27,14 +23,9 @@ describe("objectToFormData", () => {
     }
 
     const form = objectToFormData(object)
-    const data = form.getBuffer().toString("utf-8")
 
-    expect(data).toContain(`Content-Disposition: form-data; name="name"`)
-    expect(data).toContain(`Peter`)
-    expect(data).toContain(
-      `Content-Disposition: form-data; name="info[surname]"`,
-    )
-    expect(data).toContain(`Smith`)
+    expect(form.get("name")).toEqual("Peter")
+    expect(form.get("info[surname]")).toEqual("Smith")
   })
 
   it("works with deep nested keys", () => {
@@ -48,16 +39,18 @@ describe("objectToFormData", () => {
     }
 
     const form = objectToFormData(object)
-    const data = form.getBuffer().toString("utf-8")
 
-    expect(data).toContain(
-      `Content-Disposition: form-data; name="info[surname]"`,
-    )
-    expect(data).toContain(`Smith`)
-    expect(data).toContain(
-      `Content-Disposition: form-data; name="info[company][name]"`,
-    )
-    expect(data).toContain(`Acid`)
+    expect(form.get("info[surname]")).toEqual("Smith")
+    expect(form.get("info[company][name]")).toEqual("Acid")
+  })
+
+  it("works with arrays", () => {
+    const friends = ["friend1", "friend2"]
+    const object = { friends }
+
+    const form = objectToFormData(object)
+
+    expect(form.getAll("friends")).toEqual(friends)
   })
 
   it("works with one level of nesting", () => {

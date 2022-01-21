@@ -2,6 +2,8 @@ import { Express } from "express"
 import { Server } from "http"
 import fetch from "node-fetch"
 import qs from "querystring"
+import { Readable } from "stream"
+import { FormDataEncoder } from "form-data-encoder"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -9,8 +11,7 @@ import { safeJsonParse } from "./utils/safeJsonParse"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import FormData from "form-data"
-import { objectToFormData } from "./utils/objectToFormData"
+import { objectToFormData } from "./forms/objectToFormData"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -122,8 +123,9 @@ export class TepperRunner {
     if (typeof body === "object") {
       if (config.isForm) {
         const form = objectToFormData(body)
+        const encoder = new FormDataEncoder(form)
 
-        return { body: form, headers: form.getHeaders() }
+        return { body: Readable.from(encoder), headers: encoder.headers }
       }
 
       return {

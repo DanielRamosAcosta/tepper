@@ -1,21 +1,26 @@
 import express from "express"
 import multer from "multer"
-import fs from "fs"
+import { createReadStream } from "fs"
 import tepper from "../src/tepper"
 
 describe("forms", () => {
-  it("supports sending a single file", async () => {
+  it("supports sending a single file with fs.createReadStream", async () => {
     const upload = multer({ storage: multer.memoryStorage() })
     const app = express().post(
       "/profile",
       upload.single("document"),
       (req, res) => {
-        res.send({
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          document: req.file.buffer.toString("base64"),
-          ...req.body,
-        })
+        const { file } = req
+        if (file) {
+          res.send({
+            document: {
+              content: file.buffer.toString("base64"),
+              filename: file.originalname,
+              mimetype: file.mimetype,
+            },
+            ...req.body,
+          })
+        }
       },
     )
 
@@ -23,13 +28,55 @@ describe("forms", () => {
       .post("/profile")
       .sendForm({
         name: "Peter",
-        document: fs.createReadStream("./test/fixtures/1.txt"),
+        document: createReadStream("./test/fixtures/1.txt"),
       })
       .run()
 
     expect(body).toEqual({
       name: "Peter",
-      document: "MQo=",
+      document: {
+        content: "MQo=",
+        filename: "1.txt",
+        mimetype: "text/plain",
+      },
+    })
+  })
+
+  it("supports sending from a path", async () => {
+    const upload = multer({ storage: multer.memoryStorage() })
+    const app = express().post(
+      "/profile",
+      upload.single("document"),
+      (req, res) => {
+        const { file } = req
+        if (file) {
+          res.send({
+            document: {
+              content: file.buffer.toString("base64"),
+              filename: file.originalname,
+              mimetype: file.mimetype,
+            },
+            ...req.body,
+          })
+        }
+      },
+    )
+
+    const { body } = await tepper(app)
+      .post("/profile")
+      .sendForm({
+        name: "Peter",
+        document: createReadStream("./test/fixtures/1.txt"),
+      })
+      .run()
+
+    expect(body).toEqual({
+      name: "Peter",
+      document: {
+        content: "MQo=",
+        filename: "1.txt",
+        mimetype: "text/plain",
+      },
     })
   })
 
@@ -39,12 +86,13 @@ describe("forms", () => {
       "/profile",
       upload.array("documents"),
       (req, res) => {
-        res.send({
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          documents: req.files.map((file) => file.buffer.toString("base64")),
-          ...req.body,
-        })
+        const files = req.files
+        if (Array.isArray(files)) {
+          res.send({
+            documents: files.map((file) => file.buffer.toString("base64")),
+            ...req.body,
+          })
+        }
       },
     )
 
@@ -53,9 +101,9 @@ describe("forms", () => {
       .sendForm({
         name: "Peter",
         documents: [
-          fs.createReadStream("./test/fixtures/1.txt"),
-          fs.createReadStream("./test/fixtures/2.txt"),
-          fs.createReadStream("./test/fixtures/3.txt"),
+          createReadStream("./test/fixtures/1.txt"),
+          createReadStream("./test/fixtures/2.txt"),
+          createReadStream("./test/fixtures/3.txt"),
         ],
       })
       .run()
@@ -112,6 +160,26 @@ describe("forms", () => {
 
     expect(body).toEqual({
       name: "Peter",
+    })
+  })
+
+  it("supports sending arrays", async () => {
+    const upload = multer({ storage: multer.memoryStorage() })
+    const app = express().post("/profile", upload.none(), (req, res) => {
+      res.send({
+        ...req.body,
+      })
+    })
+
+    const { body } = await tepper(app)
+      .post("/profile")
+      .sendForm({
+        friends: ["friend1", "friend2"],
+      })
+      .run()
+
+    expect(body).toEqual({
+      friends: ["friend1", "friend2"],
     })
   })
 })

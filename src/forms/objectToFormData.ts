@@ -1,5 +1,6 @@
-import fs from "fs"
-import FormData from "form-data"
+import { ReadStream } from "fs"
+import { FormData } from "formdata-node"
+import { FormFile } from "./FormFile"
 
 export type ObjectEntry = [string, any]
 export type ObjectEntries = Array<ObjectEntry>
@@ -11,13 +12,18 @@ export function objectToFormData(object: object): FormData {
     if (value == null) continue
 
     if (typeof value === "object") {
-      if (value instanceof fs.ReadStream) {
-        form.append(key, value)
+      if (value instanceof ReadStream) {
+        form.append(key, FormFile.fromReadStream(value))
         continue
       }
 
       if (Array.isArray(value)) {
         for (const valueElement of value) {
+          if (valueElement instanceof ReadStream) {
+            form.append(key, FormFile.fromReadStream(valueElement))
+            continue
+          }
+
           form.append(key, valueElement)
         }
 
