@@ -75,6 +75,7 @@ export class TepperRunner {
       headers: {
         ...headers,
         ...(config.jwt ? { Authorization: `Bearer ${config.jwt}` } : {}),
+        ...config.customHeaders,
       },
       redirect: "manual",
       ...(config.timeout ? { timeout: config.timeout } : {}),
