@@ -17,4 +17,5 @@ export type TepperConfig = {
   readonly timeout: number | null
   readonly jwt: string | null
   readonly debug: Partial<DebugOptions> | null
+  readonly customHeaders: Record<string, string>
 }

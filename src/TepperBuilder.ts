@@ -93,6 +93,13 @@ export class TepperBuilder {
     })
   }
 
+  public withHeaders(headers: Record<string, string>) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      customHeaders: headers,
+    })
+  }
+
   public debug({ body = true }: Partial<DebugOptions> = {}) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
