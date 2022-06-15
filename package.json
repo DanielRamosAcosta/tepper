@@ -71,6 +71,6 @@
     "formdata-node": "^4.3.2",
     "mime-types": "^2.1.34",
     "node-fetch": "^2.6.1",
-    "@types/node-fetch": "2.6.1"
+    "@types/node-fetch": "2.6.2"
   }
 }
