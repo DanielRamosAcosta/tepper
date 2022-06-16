@@ -14,4 +14,32 @@ describe("query params", () => {
 
     expect(body).toEqual({ hello: "world" })
   })
+
+  describe("array params", () => {
+    it("parses correctly an array", async () => {
+      const app = express().get("/", (req, res) => {
+        res.send(req.query)
+      })
+
+      const { body } = await tepper(app)
+        .get("")
+        .withQuery({ tags: ["first-tag", "second-tag"] })
+        .run()
+
+      expect(body).toEqual({ tags: ["first-tag", "second-tag"] })
+    })
+
+    it("parses correctly an array with one element", async () => {
+      const app = express().get("/", (req, res) => {
+        res.send(req.query)
+      })
+
+      const { body } = await tepper(app)
+        .get("")
+        .withQuery({ tags: ["first-tag"] })
+        .run()
+
+      expect(body).toEqual({ tags: ["first-tag"] })
+    })
+  })
 })
