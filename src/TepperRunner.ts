@@ -4,6 +4,7 @@ import fetch from "node-fetch"
 import qs from "querystring"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
+import { URLSearchParams } from "url"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -63,9 +64,7 @@ export class TepperRunner {
     endpoint: string,
     config: TepperConfig,
   ): Promise<TepperResult> {
-    const endpointWithQuery = config.query
-      ? endpoint.concat("?").concat(qs.stringify(config.query))
-      : endpoint
+    const endpointWithQuery = this.appendQuery(endpoint, config)
 
     const { body, headers } = this.insertBodyIfPresent(config)
 
@@ -110,6 +109,26 @@ export class TepperRunner {
     this.runExpectations(result, config)
 
     return result
+  }
+
+  private static appendQuery(endpoint: string, config: TepperConfig) {
+    if (!config.query) {
+      return endpoint
+    }
+
+    const params = new URLSearchParams()
+
+    for (const [key, value] of Object.entries(config.query)) {
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          params.append(key + "[]", v)
+        }
+      } else {
+        params.append(key, value?.toString() || "")
+      }
+    }
+
+    return endpoint.concat("?").concat(params.toString())
   }
 
   private static insertBodyIfPresent(config: TepperConfig): {

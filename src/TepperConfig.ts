@@ -1,4 +1,3 @@
-import { ParsedUrlQueryInput } from "querystring"
 import { DebugOptions } from "./DebugOptions"
 
 export type TepperConfig = {
@@ -6,7 +5,7 @@ export type TepperConfig = {
   readonly path: string
   readonly body: string | object | null
   readonly isForm: boolean
-  readonly query: ParsedUrlQueryInput | null
+  readonly query: object | null
   readonly redirects: number
   readonly expectedStatus: number | null
   readonly expectedBody:
