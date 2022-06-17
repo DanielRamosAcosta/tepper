@@ -13,6 +13,7 @@ import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { objectToFormData } from "./forms/objectToFormData"
+import { objectToQueryString } from "./queries/objectToQueryString"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -116,19 +117,9 @@ export class TepperRunner {
       return endpoint
     }
 
-    const params = new URLSearchParams()
-
-    for (const [key, value] of Object.entries(config.query)) {
-      if (Array.isArray(value)) {
-        for (const v of value) {
-          params.append(key + "[]", v)
-        }
-      } else {
-        params.append(key, value?.toString() || "")
-      }
-    }
-
-    return endpoint.concat("?").concat(params.toString())
+    return endpoint
+      .concat("?")
+      .concat(objectToQueryString(config.query).toString())
   }
 
   private static insertBodyIfPresent(config: TepperConfig): {
