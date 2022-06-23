@@ -20,4 +20,12 @@ describe("objectToQueryString", () => {
 
     expect(result).toEqual("tags[]=first-tag&tags[]=second-tag")
   })
+
+  it("skips undefined values", () => {
+    const query = { empty: undefined }
+
+    const result = objectToQueryString(query)
+
+    expect(result).toEqual("")
+  })
 })

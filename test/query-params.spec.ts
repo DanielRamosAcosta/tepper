@@ -15,6 +15,19 @@ describe("query params", () => {
     expect(body).toEqual({ hello: "world" })
   })
 
+  it("skips undefined values", async () => {
+    const app = express().get("/", (req, res) => {
+      res.send(req.query)
+    })
+
+    const { body } = await tepper(app)
+      .get("")
+      .withQuery({ hello: undefined })
+      .run()
+
+    expect(body).toEqual({})
+  })
+
   describe("array params", () => {
     it("parses correctly an array", async () => {
       const app = express().get("/", (req, res) => {

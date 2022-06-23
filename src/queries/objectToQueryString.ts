@@ -9,7 +9,7 @@ export function objectToQueryString(query: object) {
       for (const v of value) {
         params.append(key + arrayIndicator, v)
       }
-    } else {
+    } else if (value != null) {
       params.append(key, (value && value.toString()) || "")
     }
   }
