@@ -4,6 +4,7 @@ import fetch from "node-fetch"
 import qs from "querystring"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
+import { URLSearchParams } from "url"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -12,6 +13,7 @@ import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { objectToFormData } from "./forms/objectToFormData"
+import { objectToQueryString } from "./queries/objectToQueryString"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -63,9 +65,7 @@ export class TepperRunner {
     endpoint: string,
     config: TepperConfig,
   ): Promise<TepperResult> {
-    const endpointWithQuery = config.query
-      ? endpoint.concat("?").concat(qs.stringify(config.query))
-      : endpoint
+    const endpointWithQuery = this.appendQuery(endpoint, config)
 
     const { body, headers } = this.insertBodyIfPresent(config)
 
@@ -110,6 +110,16 @@ export class TepperRunner {
     this.runExpectations(result, config)
 
     return result
+  }
+
+  private static appendQuery(endpoint: string, config: TepperConfig) {
+    if (!config.query) {
+      return endpoint
+    }
+
+    return endpoint
+      .concat("?")
+      .concat(objectToQueryString(config.query).toString())
   }
 
   private static insertBodyIfPresent(config: TepperConfig): {
