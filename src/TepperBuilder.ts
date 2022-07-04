@@ -100,6 +100,13 @@ export class TepperBuilder {
     })
   }
 
+  public withCookies(cookies: Record<string, string>) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      cookies,
+    })
+  }
+
   public debug({ body = true }: Partial<DebugOptions> = {}) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,

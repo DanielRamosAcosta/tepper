@@ -15,5 +15,6 @@ export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
     expectedStatus: null,
     debug: null,
     customHeaders: {},
+    cookies: {},
   })
 }
