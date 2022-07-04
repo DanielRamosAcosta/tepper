@@ -1,10 +1,8 @@
 import { Express } from "express"
 import { Server } from "http"
 import fetch from "node-fetch"
-import qs from "querystring"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
-import { URLSearchParams } from "url"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -69,6 +67,8 @@ export class TepperRunner {
 
     const { body, headers } = this.insertBodyIfPresent(config)
 
+    const cookies = this.parseCookies(config.cookies)
+
     const response = await fetch(endpointWithQuery, {
       method: config.method,
       ...(body ? { body } : {}),
@@ -76,6 +76,7 @@ export class TepperRunner {
         ...headers,
         ...(config.jwt ? { Authorization: `Bearer ${config.jwt}` } : {}),
         ...config.customHeaders,
+        cookie: cookies,
       },
       redirect: "manual",
       ...(config.timeout ? { timeout: config.timeout } : {}),
@@ -146,6 +147,12 @@ export class TepperRunner {
     }
 
     return { body, headers: {} }
+  }
+
+  private static parseCookies(cookies: Record<string, string>): string {
+    return Object.keys(cookies)
+      .map((key) => `${key}=${cookies[key]}`)
+      .join("; ")
   }
 
   private static runExpectations(result: TepperResult, config: TepperConfig) {
