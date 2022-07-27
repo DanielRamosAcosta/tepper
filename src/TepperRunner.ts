@@ -1,7 +1,8 @@
 import { Express } from "express"
 import { Server } from "http"
 import fetch from "node-fetch"
-import qs from "querystring"
+import { Readable } from "stream"
+import { FormDataEncoder } from "form-data-encoder"
 import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
 import { getBaseUrl } from "./utils/getBaseUrl"
 import { closePromised } from "./utils/closePromised"
@@ -9,6 +10,8 @@ import { safeJsonParse } from "./utils/safeJsonParse"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
+import { objectToFormData } from "./forms/objectToFormData"
+import { objectToQueryString } from "./queries/objectToQueryString"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -60,18 +63,20 @@ export class TepperRunner {
     endpoint: string,
     config: TepperConfig,
   ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
-    const endpointWithQuery = config.query
-      ? endpoint.concat("?").concat(qs.stringify(config.query))
-      : endpoint
+    const endpointWithQuery = this.appendQuery(endpoint, config)
+
+    const { body, headers } = this.insertBodyIfPresent(config)
+
+    const cookies = this.parseCookies(config.cookies)
 
     const response = await fetch(endpointWithQuery, {
       method: config.method,
-      ...(config.body ? { body: JSON.stringify(config.body) } : {}),
+      ...(body ? { body } : {}),
       headers: {
-        ...(typeof config.body === "object"
-          ? { "Content-Type": " application/json" }
-          : {}),
+        ...headers,
         ...(config.jwt ? { Authorization: `Bearer ${config.jwt}` } : {}),
+        ...config.customHeaders,
+        cookie: cookies,
       },
       redirect: "manual",
       ...(config.timeout ? { timeout: config.timeout } : {}),
@@ -107,6 +112,49 @@ export class TepperRunner {
 
     return result
   }
+
+  private static appendQuery(endpoint: string, config: TepperConfig) {
+    if (!config.query) {
+      return endpoint
+    }
+
+    return endpoint
+      .concat("?")
+      .concat(objectToQueryString(config.query).toString())
+  }
+
+  private static insertBodyIfPresent(config: TepperConfig): {
+    body: any
+    headers: object
+  } {
+    const body = config.body
+    if (!body) {
+      return { body: null, headers: {} }
+    }
+
+    if (typeof body === "object") {
+      if (config.isForm) {
+        const form = objectToFormData(body)
+        const encoder = new FormDataEncoder(form)
+
+        return { body: Readable.from(encoder), headers: encoder.headers }
+      }
+
+      return {
+        body: JSON.stringify(body),
+        headers: { "Content-Type": " application/json" },
+      }
+    }
+
+    return { body, headers: {} }
+  }
+
+  private static parseCookies(cookies: Record<string, string>): string {
+    return Object.keys(cookies)
+      .map((key) => `${key}=${cookies[key]}`)
+      .join("; ")
+  }
+
 
   private static runExpectations<ExpectedResponse, ErrorType>(result: TepperResult<ExpectedResponse, ErrorType>, config: TepperConfig) {
     if (config.expectedBody) {

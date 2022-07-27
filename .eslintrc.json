@@ -19,6 +19,8 @@
   },
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/explicit-member-accessibility": 2
+    "@typescript-eslint/explicit-member-accessibility": 2,
+    "prefer-const": "warn",
+    "no-console": "warn"
   }
 }

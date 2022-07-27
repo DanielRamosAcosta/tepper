@@ -65,6 +65,14 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
     })
   }
 
+  public sendForm(form: object) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      body: form,
+      isForm: true,
+    })
+  }
+
   public redirects(amount: number) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
@@ -90,6 +98,20 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       query,
+    })
+  }
+
+  public withHeaders(headers: Record<string, string>) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      customHeaders: headers,
+    })
+  }
+
+  public withCookies(cookies: Record<string, string>) {
+    return new TepperBuilder(this.baseUrlServerOrExpress, {
+      ...this.config,
+      cookies,
     })
   }
 
