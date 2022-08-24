@@ -64,7 +64,6 @@ export class TepperRunner {
     config: TepperConfig,
   ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
     const endpointWithQuery = this.appendQuery(endpoint, config)
-
     const { body, headers } = this.insertBodyIfPresent(config)
 
     const cookies = this.parseCookies(config.cookies)
@@ -88,7 +87,9 @@ export class TepperRunner {
       status: response.status,
       headers: response.headers,
       text,
-      body: safeJsonParse<ExpectedResponse & ErrorType>(text) as ExpectedResponse & ErrorType
+      body: safeJsonParse<ExpectedResponse & ErrorType>(
+        text,
+      ) as ExpectedResponse & ErrorType,
     }
 
     if (config.debug && config.debug.body) {
@@ -155,8 +156,10 @@ export class TepperRunner {
       .join("; ")
   }
 
-
-  private static runExpectations<ExpectedResponse, ErrorType>(result: TepperResult<ExpectedResponse, ErrorType>, config: TepperConfig) {
+  private static runExpectations<ExpectedResponse, ErrorType>(
+    result: TepperResult<ExpectedResponse, ErrorType>,
+    config: TepperConfig,
+  ) {
     if (config.expectedBody) {
       if (typeof config.expectedBody === "string") {
         expect(result.text).toEqual(config.expectedBody)
