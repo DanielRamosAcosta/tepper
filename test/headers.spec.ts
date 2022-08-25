@@ -25,7 +25,7 @@ describe("headers", () => {
       res.send(req.headers[CUSTOM_HEADER.toLowerCase()])
     })
 
-    const { text } = await tepper(app).send("foo").post("/").run()
+    const { text } = await tepper(app).post("/").send("foo").run()
 
     expect(text).toEqual("")
   })

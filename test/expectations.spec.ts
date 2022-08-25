@@ -24,6 +24,38 @@ describe("expectations", () => {
     await tepper(app).get("/").expect({ status: "ok" }).run()
   })
 
+  it("supports typing the response", async () => {
+    const app = express()
+      .use(express.json())
+      .get("/", (_req, res) => {
+        res.json({ status: "ok" })
+      })
+
+    const { body } = await tepper(app).get<{ status: string }>("/").run()
+
+    expect(body.status).toBe("ok")
+  })
+
+  it("has default error typing", async () => {
+    const app = express()
+      .use(express.json())
+      .get("/", (_req, res) => {
+        res.status(400).json({
+          error: {
+            code: "INVALID_EMAIL",
+            message: "The provided email is invalid",
+            status: 400,
+          },
+        })
+      })
+
+    const { body } = await tepper(app).get("/").run()
+
+    expect(body.error.code).toBe("INVALID_EMAIL")
+    expect(body.error.message).toBe("The provided email is invalid")
+    expect(body.error.status).toBe(400)
+  })
+
   it("asserts with a json body when is wrong", async () => {
     const app = express()
       .use(express.json())
