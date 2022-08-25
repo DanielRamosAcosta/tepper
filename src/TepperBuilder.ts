@@ -4,46 +4,54 @@ import { DebugOptions } from "./DebugOptions"
 import { TepperConfig } from "./TepperConfig"
 import { TepperResult } from "./TepperResult"
 import { TepperRunner } from "./TepperRunner"
-export class TepperBuilder {
+
+type StandardError = {
+  error: {
+    status: number,
+    code: string,
+    message: string
+  }
+}
+export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,
   ) {}
 
-  public get(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public get<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "GET",
       path,
     })
   }
 
-  public post(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public post<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "POST",
       path,
     })
   }
 
-  public put(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public put<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PUT",
       path,
     })
   }
 
-  public patch(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public patch<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "PATCH",
       path,
     })
   }
 
-  public delete(path: string) {
-    return new TepperBuilder(this.baseUrlServerOrExpress, {
+  public delete<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
       ...this.config,
       method: "DELETE",
       path,
@@ -151,8 +159,8 @@ export class TepperBuilder {
     })
   }
 
-  public async run(): Promise<TepperResult> {
-    return TepperRunner.launchServerAndRun(
+  public async run(): Promise<TepperResult<ExpectedResponse, ErrorType>> {
+    return TepperRunner.launchServerAndRun<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       this.config,
     )

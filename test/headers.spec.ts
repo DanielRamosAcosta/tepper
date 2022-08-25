@@ -18,4 +18,15 @@ describe("headers", () => {
 
     expect(text).toEqual(CUSTOM_HEADER_VALUE)
   })
+
+  it("does not add headers if they are not provided", async () => {
+    const CUSTOM_HEADER = "X-Custom-Header"
+    const app = express().post("/", (req, res) => {
+      res.send(req.headers[CUSTOM_HEADER.toLowerCase()])
+    })
+
+    const { text } = await tepper(app).send("foo").post("/").run()
+
+    expect(text).toEqual("")
+  })
 })
