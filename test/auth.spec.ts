@@ -35,30 +35,13 @@ describe("auth", () => {
         const expectedHeader = `Basic ${Buffer.from(
           registeredUser + ":" + userPassword,
         ).toString("base64")}`
-        const app = express()
-          .use((req, res, next) => {
-            const auth = { user: registeredUser, password: userPassword }
-            const b64auth =
-              (req.headers.authorization || "").split(" ")[1] || ""
-            const [login, password] = Buffer.from(b64auth, "base64")
-              .toString()
-              .split(":")
-            if (
-              login &&
-              password &&
-              login === auth.user &&
-              password === auth.password
-            ) {
-              return next()
-            }
-          })
-          .get("/", (req, res) => {
-            res.send(req.headers.authorization)
-          })
+        const app = express().get("/", (req, res) => {
+          res.send(req.headers.authorization)
+        })
 
         const { text } = await tepper(app)
           .auth()
-          .withBasicAuth("user", "password")
+          .withBasicAuth(registeredUser, userPassword)
           .get("/")
           .run()
 

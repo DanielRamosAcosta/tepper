@@ -11,6 +11,7 @@ export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
     redirects: 0,
     timeout: null,
     jwt: null,
+    basicAuth: null,
     expectedBody: null,
     expectedStatus: null,
     debug: null,
