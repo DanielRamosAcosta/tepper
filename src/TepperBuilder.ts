@@ -7,8 +7,8 @@ import { TepperRunner } from "./TepperRunner"
 
 type StandardError = {
   error: {
-    status: number,
-    code: string,
+    status: number
+    code: string
     message: string
   }
 }
@@ -19,43 +19,62 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   ) {}
 
   public get<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
-      ...this.config,
-      method: "GET",
-      path,
-    })
+    return new TepperBuilder<ExpectedResponse, ErrorType>(
+      this.baseUrlServerOrExpress,
+      {
+        ...this.config,
+        method: "GET",
+        path,
+      },
+    )
   }
 
   public post<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
-      ...this.config,
-      method: "POST",
-      path,
-    })
+    return new TepperBuilder<ExpectedResponse, ErrorType>(
+      this.baseUrlServerOrExpress,
+      {
+        ...this.config,
+        method: "POST",
+        path,
+      },
+    )
   }
 
   public put<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
-      ...this.config,
-      method: "PUT",
-      path,
-    })
+    return new TepperBuilder<ExpectedResponse, ErrorType>(
+      this.baseUrlServerOrExpress,
+      {
+        ...this.config,
+        method: "PUT",
+        path,
+      },
+    )
   }
 
-  public patch<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
-      ...this.config,
-      method: "PATCH",
-      path,
-    })
+  public patch<ExpectedResponse = any, ErrorType = StandardError>(
+    path: string,
+  ) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(
+      this.baseUrlServerOrExpress,
+      {
+        ...this.config,
+        method: "PATCH",
+        path,
+      },
+    )
   }
 
-  public delete<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(this.baseUrlServerOrExpress, {
-      ...this.config,
-      method: "DELETE",
-      path,
-    })
+  public delete<ExpectedResponse = any, ErrorType = StandardError>(
+    path: string,
+  ) {
+    return new TepperBuilder<ExpectedResponse, ErrorType>(
+      this.baseUrlServerOrExpress,
+      {
+        ...this.config,
+        method: "DELETE",
+        path,
+      },
+    )
   }
 
   public send(body: string | object) {
@@ -87,11 +106,23 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
     })
   }
 
+  /** @deprecated Please, use __.auth()__ instead */
   public authWith(jwt: string) {
     return new TepperBuilder(this.baseUrlServerOrExpress, {
       ...this.config,
       jwt,
     })
+  }
+
+  public auth() {
+    return {
+      withBearer: (jwt: string) => {
+        return new TepperBuilder(this.baseUrlServerOrExpress, {
+          ...this.config,
+          jwt,
+        })
+      },
+    }
   }
 
   public withQuery(query: ParsedUrlQueryInput) {
