@@ -122,6 +122,13 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
           jwt,
         })
       },
+      withBasicAuth: (user: string, password: string) => {
+        const basicAuth = Buffer.from(user + ":" + password).toString("base64")
+        return new TepperBuilder(this.baseUrlServerOrExpress, {
+          ...this.config,
+          basicAuth,
+        })
+      },
     }
   }
 

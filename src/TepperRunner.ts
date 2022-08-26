@@ -74,6 +74,9 @@ export class TepperRunner {
       headers: {
         ...headers,
         ...(config.jwt ? { Authorization: `Bearer ${config.jwt}` } : {}),
+        ...(config.basicAuth
+          ? { Authorization: `Basic ${config.basicAuth}` }
+          : {}),
         ...config.customHeaders,
         cookie: cookies,
       },

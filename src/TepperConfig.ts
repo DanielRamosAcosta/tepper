@@ -15,6 +15,7 @@ export type TepperConfig = {
     | null
   readonly timeout: number | null
   readonly jwt: string | null
+  readonly basicAuth: string | null
   readonly debug: Partial<DebugOptions> | null
   readonly customHeaders: Record<string, string>
   readonly cookies: Record<string, string>
