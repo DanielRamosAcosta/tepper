@@ -18,5 +18,9 @@ export function getBaseUrl(server: Server) {
     throw new Error(`Address is not an object`)
   }
 
-  return `http://${addressInfo.address}:${addressInfo.port}`
+  const hostname = addressInfo.address.startsWith("::")
+    ? "127.0.0.1"
+    : addressInfo.address
+
+  return `http://${hostname}:${addressInfo.port}`
 }
