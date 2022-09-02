@@ -65,7 +65,7 @@ describe("server setup", () => {
     })
     const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
-    const { text, status } = await tepper(`http://localhost:4001`)
+    const { text, status } = await tepper(`http://127.0.0.1:4001`)
       .get("/")
       .run()
 
@@ -81,7 +81,7 @@ describe("server setup", () => {
     })
     const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
-    const { text, status } = await tepper(`http://localhost:4001`)
+    const { text, status } = await tepper(`http://127.0.0.1:4001`)
       .get("/hello")
       .run()
 
