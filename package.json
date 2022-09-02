@@ -1,11 +1,8 @@
 {
   "name": "tepper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modern library for testing HTTP servers",
   "main": "dist/tepper.js",
-  "engines": {
-    "node": ">= 12.13.0"
-  },
   "homepage": "https://github.com/DanielRamosAcosta/tepper",
   "repository": "https://github.com/DanielRamosAcosta/tepper",
   "author": "Daniel Ramos <danielramosacosta@hotmail.com>",
