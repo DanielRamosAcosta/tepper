@@ -109,9 +109,28 @@ export class TepperRunner {
       })
     }
 
-    this.runExpectations<ExpectedResponse, ErrorType>(result, config)
+    try {
+      this.runExpectations<ExpectedResponse, ErrorType>(result, config)
+    } catch (error: unknown) {
+      throw this.cleanStackTrace(error)
+    }
 
     return result
+  }
+
+  private static cleanStackTrace(error: unknown) {
+    if (!(error instanceof Error)) return error
+
+    const cleanedStack = (error.stack || "")
+      .split("\n")
+      .filter((stackLine) => !/at.+TepperRunner\.ts/.test(stackLine))
+      .filter((stackLine) => !/at.+tepper\.ts/.test(stackLine))
+      .filter((stackLine) => !/at.+Object\.expectToEqual/.test(stackLine))
+      .join("\n")
+
+    error.stack = cleanedStack
+
+    return error
   }
 
   private static appendQuery(endpoint: string, config: TepperConfig) {
@@ -162,14 +181,14 @@ export class TepperRunner {
   ) {
     if (config.expectedBody) {
       if (typeof config.expectedBody === "string") {
-        config.expect(result.text).toEqual(config.expectedBody)
+        config.expectToEqual(result.text, config.expectedBody)
       } else {
-        config.expect(result.body).toEqual(config.expectedBody)
+        config.expectToEqual(result.body, config.expectedBody)
       }
     }
 
     if (config.expectedStatus) {
-      config.expect(result.status).toEqual(config.expectedStatus)
+      config.expectToEqual(result.status, config.expectedStatus)
     }
   }
 

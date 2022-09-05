@@ -1,6 +1,7 @@
-import { it, expect, describe } from "vitest"
+import { it, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
+import { expectToEqual } from "./utils/expectToEqual"
 
 describe("sending JSON", () => {
   it("should work with .send()", async () => {
@@ -10,7 +11,7 @@ describe("sending JSON", () => {
         res.send(req.body.name)
       })
 
-    await tepper(app, { expect })
+    await tepper(app, { expectToEqual })
       .post("/")
       .send({ name: "john" })
       .expect("john")
@@ -24,7 +25,7 @@ describe("sending JSON", () => {
         res.send(req.body)
       })
 
-    await tepper(app, { expect })
+    await tepper(app, { expectToEqual })
       .post("/")
       .send([1, 2, 3])
       .expect([1, 2, 3])

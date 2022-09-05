@@ -10,7 +10,7 @@ Modern HTTP expectation library inspired in [supertest](https://github.com/visio
 
 ## About
 
-This library is a modern implementation of supertest, typescript-first and promise first for the modern ages. Right now it's usage is restricted to jest.
+This library is a modern implementation of supertest, typescript-first and promise first for the modern ages. It supports jest and vitest.
 
 ## Installation
 
@@ -30,16 +30,13 @@ there is no need to keep track of ports.
 import tepper from "tepper"
 import express from "express"
 
-const app = express();
+const app = express()
 
-app.get('/user', (req, res) => {
-  res.status(200).json({ name: 'john' });
-});
+app.get("/user", (req, res) => {
+  res.status(200).json({ name: "john" })
+})
 
-const { body } = await tepper(app)
-  .get('/user')
-  .expect(200)
-  .run();
+const { body } = await tepper(app).get("/user").expect(200).run()
 
 console.log(body)
 ```

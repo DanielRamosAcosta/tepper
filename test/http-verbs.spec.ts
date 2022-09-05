@@ -1,6 +1,7 @@
-import { it, expect, describe } from "vitest"
+import { it, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
+import { expectToEqual } from "./utils/expectToEqual"
 
 const httpVerbs = [["get"], ["post"], ["put"], ["patch"], ["delete"]] as const
 
@@ -12,6 +13,6 @@ describe("http verbs", () => {
       res.send()
     })
 
-    await tepper(app, { expect })[verb]("/").expect(200).run()
+    await tepper(app, { expectToEqual })[verb]("/").expect(200).run()
   })
 })

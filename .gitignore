@@ -28,3 +28,5 @@ lib
 .vscode
 
 dist
+
+jest-tepper
