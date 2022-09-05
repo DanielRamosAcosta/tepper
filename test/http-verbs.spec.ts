@@ -1,3 +1,4 @@
+import { it, expect, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
 
@@ -11,6 +12,6 @@ describe("http verbs", () => {
       res.send()
     })
 
-    await tepper(app)[verb]("/").expect(200).run()
+    await tepper(app, { expect })[verb]("/").expect(200).run()
   })
 })

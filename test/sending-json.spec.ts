@@ -1,3 +1,4 @@
+import { it, expect, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
 
@@ -9,7 +10,11 @@ describe("sending JSON", () => {
         res.send(req.body.name)
       })
 
-    await tepper(app).post("/").send({ name: "john" }).expect("john").run()
+    await tepper(app, { expect })
+      .post("/")
+      .send({ name: "john" })
+      .expect("john")
+      .run()
   })
 
   it("should work with .send() with an array", async () => {
@@ -19,6 +24,10 @@ describe("sending JSON", () => {
         res.send(req.body)
       })
 
-    await tepper(app).post("/").send([1, 2, 3]).expect([1, 2, 3]).run()
+    await tepper(app, { expect })
+      .post("/")
+      .send([1, 2, 3])
+      .expect([1, 2, 3])
+      .run()
   })
 })

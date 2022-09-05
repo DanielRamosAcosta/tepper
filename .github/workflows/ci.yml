@@ -30,5 +30,11 @@ jobs:
       - name: Run the tests
         run: npm run test:coverage
 
+      - name: Build
+        run: npm run build
+
+      - name: Test that works on jest
+        run: bash jest.sh
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1

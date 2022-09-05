@@ -1,7 +1,11 @@
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { TepperBuilder } from "./TepperBuilder"
+import { TepperConfig } from "./TepperConfig"
 
-export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
+export default function tepper(
+  baseUrlExpressOrServer: BaseUrlServerOrExpress,
+  config?: Partial<TepperConfig>,
+) {
   return new TepperBuilder(baseUrlExpressOrServer, {
     method: "GET",
     path: "/",
@@ -16,5 +20,7 @@ export default function tepper(baseUrlExpressOrServer: BaseUrlServerOrExpress) {
     debug: null,
     customHeaders: {},
     cookies: {},
+    expect: globalThis.expect,
+    ...config,
   })
 }

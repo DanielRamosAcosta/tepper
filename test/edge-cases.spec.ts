@@ -1,3 +1,4 @@
+import { it, expect, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
 
@@ -7,7 +8,7 @@ describe("edge cases", () => {
       res.end("Hello")
     })
 
-    await tepper(app).get("/").expect("Hello").run()
+    await tepper(app, { expect }).get("/").expect("Hello").run()
   })
 
   it("should handle socket errors", async () => {

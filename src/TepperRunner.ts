@@ -162,14 +162,14 @@ export class TepperRunner {
   ) {
     if (config.expectedBody) {
       if (typeof config.expectedBody === "string") {
-        expect(result.text).toEqual(config.expectedBody)
+        config.expect(result.text).toEqual(config.expectedBody)
       } else {
-        expect(result.body).toEqual(config.expectedBody)
+        config.expect(result.body).toEqual(config.expectedBody)
       }
     }
 
     if (config.expectedStatus) {
-      expect(result.status).toEqual(config.expectedStatus)
+      config.expect(result.status).toEqual(config.expectedStatus)
     }
   }
 

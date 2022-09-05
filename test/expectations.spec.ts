@@ -1,3 +1,4 @@
+import { it, expect, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
 
@@ -9,7 +10,7 @@ describe("expectations", () => {
         res.send("alice")
       })
 
-    const promise = tepper(app).get("/").expect("bob").run()
+    const promise = tepper(app, { expect }).get("/").expect("bob").run()
 
     await expect(promise).rejects.toBeDefined()
   })
@@ -21,7 +22,7 @@ describe("expectations", () => {
         res.json({ status: "ok" })
       })
 
-    await tepper(app).get("/").expect({ status: "ok" }).run()
+    await tepper(app, { expect }).get("/").expect({ status: "ok" }).run()
   })
 
   it("supports typing the response", async () => {
@@ -31,7 +32,9 @@ describe("expectations", () => {
         res.json({ status: "ok" })
       })
 
-    const { body } = await tepper(app).get<{ status: string }>("/").run()
+    const { body } = await tepper(app, { expect })
+      .get<{ status: string }>("/")
+      .run()
 
     expect(body.status).toBe("ok")
   })
@@ -49,7 +52,7 @@ describe("expectations", () => {
         })
       })
 
-    const { body } = await tepper(app).get("/").run()
+    const { body } = await tepper(app, { expect }).get("/").run()
 
     expect(body.error.code).toBe("INVALID_EMAIL")
     expect(body.error.message).toBe("The provided email is invalid")
@@ -63,7 +66,10 @@ describe("expectations", () => {
         res.json({ status: "ko" })
       })
 
-    const promise = tepper(app).get("/").expect({ status: "ok" }).run()
+    const promise = tepper(app, { expect })
+      .get("/")
+      .expect({ status: "ok" })
+      .run()
 
     await expect(promise).rejects.toBeDefined()
   })
@@ -74,7 +80,7 @@ describe("expectations", () => {
       res.send("alice")
     })
 
-    const promise = tepper(app).get("/").expect(404).run()
+    const promise = tepper(app, { expect }).get("/").expect(404).run()
 
     await expect(promise).rejects.toBeDefined()
   })
