@@ -20,6 +20,8 @@ export default function tepper(
     debug: null,
     customHeaders: {},
     cookies: {},
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     expect: globalThis.expect,
     ...config,
   })
