@@ -31,7 +31,10 @@ describe("expectations", () => {
         res.json({ status: "ok" })
       })
 
-    const { body } = await tepper(app).get<{ status: string }>("/").run()
+    const { body } = await tepper(app)
+      .get<{ status: string }>("/")
+      .expect(200)
+      .run()
 
     expect(body.status).toBe("ok")
   })
