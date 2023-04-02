@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "ES2015",
-    "lib": ["es2020", "DOM"],
+    "lib": ["es2020"],
     "outDir": "./dist",
     "strict": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "skipLibCheck": true
   }
 }
