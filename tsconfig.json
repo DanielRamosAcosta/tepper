@@ -8,6 +8,7 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "skipLibCheck": true
   }
 }
