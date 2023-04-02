@@ -69,7 +69,7 @@
     }
   },
   "dependencies": {
-    "@types/node-fetch": "2.6.2",
+    "@types/node-fetch": "2.6.3",
     "form-data-encoder": "^1.7.1",
     "formdata-node": "^4.3.2",
     "mime-types": "^2.1.34",
