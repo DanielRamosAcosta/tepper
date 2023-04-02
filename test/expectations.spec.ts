@@ -35,6 +35,7 @@ describe("expectations", () => {
 
     const { body } = await tepper(app, { expectToEqual })
       .get<{ status: string }>("/")
+      .expect(200)
       .run()
 
     expect(body.status).toBe("ok")
