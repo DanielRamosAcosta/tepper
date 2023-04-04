@@ -1,9 +1,36 @@
-import { describe, it, expect } from "vitest"
+import { describe, expect, it } from "vitest"
+import { createReadStream } from "fs"
+import { Readable } from "stream"
 import {
   ObjectEntries,
   objectToFormData,
   toPlainForm,
 } from "./objectToFormData"
+import { FormDataEncoder } from "form-data-encoder"
+import { FormData } from "formdata-node"
+
+async function toStringRepresentation(form: FormData) {
+  const encoder = new FormDataEncoder(form)
+  const readable = Readable.from(encoder)
+  const buffer = await new Promise<Buffer>((resolve) => {
+    const chunks: Buffer[] = []
+    readable.on("data", (chunk) => chunks.push(chunk))
+    readable.on("end", () => resolve(Buffer.concat(chunks)))
+  })
+
+  return buffer.toString()
+}
+
+function removeRandomnessOfForm(formDataString: string) {
+  return formDataString.replace(
+    /--form-data-boundary-\w{16}/g,
+    "--form-data-boundary-xxxxxxxxxxxxxxxx",
+  )
+}
+
+function crlfToLf(data: string) {
+  return data.replace(/\r\n/g, "\n")
+}
 
 describe("objectToFormData", () => {
   it("works with a simple object", () => {
@@ -97,5 +124,47 @@ describe("objectToFormData", () => {
       ["[info][company][id]", "1"],
       ["[info][company][name]", "Acid"],
     ])
+  })
+
+  it("adds files to the form", async () => {
+    const object = {
+      name: "Peter",
+      documents: [
+        createReadStream("./test/fixtures/1.txt"),
+        createReadStream("./test/fixtures/2.txt"),
+        createReadStream("./test/fixtures/3.txt"),
+      ],
+    }
+
+    const form = objectToFormData(object)
+
+    const formString = await toStringRepresentation(form)
+      .then(removeRandomnessOfForm)
+      .then(crlfToLf)
+    expect(formString).toEqual(`--form-data-boundary-xxxxxxxxxxxxxxxx
+Content-Disposition: form-data; name="name"
+
+Peter
+--form-data-boundary-xxxxxxxxxxxxxxxx
+Content-Disposition: form-data; name="documents"; filename="1.txt"
+Content-Type: text/plain
+
+1
+
+--form-data-boundary-xxxxxxxxxxxxxxxx
+Content-Disposition: form-data; name="documents"; filename="2.txt"
+Content-Type: text/plain
+
+2
+
+--form-data-boundary-xxxxxxxxxxxxxxxx
+Content-Disposition: form-data; name="documents"; filename="3.txt"
+Content-Type: text/plain
+
+3
+
+--form-data-boundary-xxxxxxxxxxxxxxxx--
+
+`)
   })
 })
