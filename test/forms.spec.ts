@@ -21,6 +21,8 @@ describe("forms", () => {
             },
             ...req.body,
           })
+        } else {
+          res.status(500).send("No file")
         }
       },
     )
@@ -59,6 +61,8 @@ describe("forms", () => {
             },
             ...req.body,
           })
+        } else {
+          res.status(500).send("No file")
         }
       },
     )
