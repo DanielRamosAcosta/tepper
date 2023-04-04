@@ -1,7 +1,6 @@
 import { it, expect, describe } from "vitest"
 import express from "express"
 import tepper from "../src/tepper"
-import { expectToEqual } from "./utils/expectToEqual"
 
 describe("edge cases", () => {
   it("should work when unbuffered", async () => {
@@ -9,7 +8,7 @@ describe("edge cases", () => {
       res.end("Hello")
     })
 
-    await tepper(app, { expectToEqual }).get("/").expect("Hello").run()
+    await tepper(app).get("/").expect("Hello").run()
   })
 
   it("should handle socket errors", async () => {
