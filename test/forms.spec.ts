@@ -93,6 +93,8 @@ describe("forms", () => {
             documents: files.map((file) => file.buffer.toString("base64")),
             ...req.body,
           })
+        } else {
+          res.status(500).send("No files")
         }
       },
     )
