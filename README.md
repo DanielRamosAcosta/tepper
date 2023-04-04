@@ -1,6 +1,6 @@
 # Tepper
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/danielramosacosta/tepper/CI)](https://github.com/DanielRamosAcosta/tepper/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DanielRamosAcosta/tepper/ci.yml?branch=main)](https://github.com/DanielRamosAcosta/tepper/actions)
 [![codecov](https://codecov.io/gh/DanielRamosAcosta/tepper/branch/main/graph/badge.svg?token=OXZKO8EFMF)](https://codecov.io/gh/DanielRamosAcosta/tepper)
 [![npm](https://img.shields.io/npm/v/tepper)](https://www.npmjs.com/package/tepper)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DanielRamosAcosta/tepper/blob/main/LICENSE)
