@@ -1,3 +1,4 @@
+import { strict as assert } from "node:assert/strict"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
 import { TepperBuilder } from "./TepperBuilder"
 import { TepperConfig } from "./TepperConfig"
@@ -21,9 +22,7 @@ export default function tepper(
     customHeaders: {},
     cookies: {},
     expectToEqual: (a, b) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      globalThis.expect(a).toEqual(b)
+      assert.deepStrictEqual(a, b)
     },
     ...config,
   })
