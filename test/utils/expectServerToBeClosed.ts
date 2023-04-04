@@ -1,3 +1,4 @@
+import { expect } from "vitest"
 import { Server } from "http"
 import { closePromised } from "../../src/utils/closePromised"
 

@@ -18,4 +18,5 @@ export type TepperConfig = {
   readonly debug: Partial<DebugOptions> | null
   readonly customHeaders: Record<string, string>
   readonly cookies: Record<string, string>
+  readonly expectToEqual: (a: unknown, b: unknown) => void
 }
