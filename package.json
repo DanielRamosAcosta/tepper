@@ -42,7 +42,7 @@
     "multer": "1.4.4",
     "prettier": "2.8.7",
     "rimraf": "4.4.1",
-    "typescript": "5.0.3",
+    "typescript": "5.0.4",
     "vitest": "0.29.8"
   },
   "dependencies": {
