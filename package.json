@@ -30,7 +30,7 @@
     "@types/multer": "1.4.7",
     "@typescript-eslint/eslint-plugin": "5.59.8",
     "@typescript-eslint/parser": "5.59.8",
-    "@vitest/coverage-c8": "0.31.1",
+    "@vitest/coverage-c8": "0.31.2",
     "cookie-parser": "1.4.6",
     "eslint": "8.41.0",
     "eslint-config-prettier": "8.8.0",
@@ -43,7 +43,7 @@
     "prettier": "2.8.8",
     "rimraf": "4.4.1",
     "typescript": "5.0.4",
-    "vitest": "0.31.1"
+    "vitest": "0.31.2"
   },
   "dependencies": {
     "@types/node-fetch": "2.6.4",
