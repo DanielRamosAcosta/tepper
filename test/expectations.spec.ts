@@ -1,6 +1,6 @@
 import { it, expect, describe } from "vitest"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 
 describe("expectations", () => {
   it("fails if it's not the expected body", async () => {

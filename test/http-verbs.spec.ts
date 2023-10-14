@@ -1,6 +1,6 @@
 import { it, describe } from "vitest"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 
 const httpVerbs = [["get"], ["post"], ["put"], ["patch"], ["delete"]] as const
 

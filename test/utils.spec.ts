@@ -1,6 +1,6 @@
 import { it, expect, describe, vi } from "vitest"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 import { noop } from "./utils/noop"
 
 describe("utils", () => {

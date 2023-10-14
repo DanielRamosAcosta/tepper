@@ -1,7 +1,7 @@
 import { it, expect, describe } from "vitest"
 import http from "http"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 import { closePromised } from "../src/utils/closePromised"
 import { listenAppPromised } from "../src/utils/listenPromised"
 import { expectServerToBeClosed } from "./utils/expectServerToBeClosed"

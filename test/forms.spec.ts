@@ -2,7 +2,7 @@ import { it, expect, describe } from "vitest"
 import express from "express"
 import multer from "multer"
 import { createReadStream } from "fs"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 
 describe("forms", () => {
   it("supports sending a single file with fs.createReadStream", async () => {

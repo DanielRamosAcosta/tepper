@@ -1,6 +1,6 @@
 import { it, expect, describe } from "vitest"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 
 describe("edge cases", () => {
   it("should work when unbuffered", async () => {
