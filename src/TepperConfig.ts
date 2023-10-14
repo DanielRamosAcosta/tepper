@@ -1,4 +1,4 @@
-import { DebugOptions } from "./DebugOptions"
+import { DebugOptions } from "./DebugOptions.js"
 
 export type TepperConfig = {
   readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"

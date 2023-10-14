@@ -1,6 +1,6 @@
 import { ReadStream } from "fs"
 import { FormData } from "formdata-node"
-import { FormFile } from "./FormFile"
+import { FormFile } from "./FormFile.js"
 
 export type ObjectEntry = [string, any]
 export type ObjectEntries = Array<ObjectEntry>

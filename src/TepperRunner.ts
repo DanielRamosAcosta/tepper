@@ -3,15 +3,18 @@ import { Server } from "http"
 import fetch from "node-fetch"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
-import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
-import { getBaseUrl } from "./utils/getBaseUrl"
-import { closePromised } from "./utils/closePromised"
-import { safeJsonParse } from "./utils/safeJsonParse"
-import { TepperConfig } from "./TepperConfig"
-import { TepperResult } from "./TepperResult"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import { objectToFormData } from "./forms/objectToFormData"
-import { objectToQueryString } from "./queries/objectToQueryString"
+import {
+  listenAppPromised,
+  listenServerPromised,
+} from "./utils/listenPromised.js"
+import { getBaseUrl } from "./utils/getBaseUrl.js"
+import { closePromised } from "./utils/closePromised.js"
+import { safeJsonParse } from "./utils/safeJsonParse.js"
+import { TepperConfig } from "./TepperConfig.js"
+import { TepperResult } from "./TepperResult.js"
+import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
+import { objectToFormData } from "./forms/objectToFormData.js"
+import { objectToQueryString } from "./queries/objectToQueryString.js"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,

@@ -2,9 +2,13 @@
   "name": "tepper",
   "version": "1.1.0",
   "description": "Modern library for testing HTTP servers",
-  "main": "dist/tepper.js",
-  "engines": {
-    "node": ">= 14"
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/tepper.js",
+      "require": "./dist/cjs/tepper.js"
+    }
   },
   "homepage": "https://github.com/DanielRamosAcosta/tepper",
   "repository": "https://github.com/DanielRamosAcosta/tepper",
@@ -15,8 +19,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf coverage build tmp",
-    "build": "tsc -p ./tsconfig.build.json",
+    "clean": "rimraf coverage dist tmp",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && ./fixup",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts --fix ./src",
     "typecheck": "tsc --noEmit",
