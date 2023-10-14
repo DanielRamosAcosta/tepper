@@ -21,11 +21,7 @@ describe("edge cases", () => {
       .run()
       .catch((error) => error)
 
-    expect(error.message).toMatch(
-      new RegExp(
-        "request to http://127.0.0.1:(\\d+)/ failed, reason: socket hang up",
-      ),
-    )
+    expect(error.message).toEqual("fetch failed")
   })
 
   it("should handle an undefined Response", async () => {
@@ -41,9 +37,7 @@ describe("edge cases", () => {
       .run()
       .catch((error) => error)
 
-    expect(error.message).toMatch(
-      new RegExp("network timeout at: http://127.0.0.1:(\\d+)/"),
-    )
+    expect(error.message).toEqual("The operation was aborted due to timeout")
   })
 
   it("throws an error if using the builder as a promise", async () => {

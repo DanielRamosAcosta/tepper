@@ -1,6 +1,5 @@
 import { Express } from "express"
 import { Server } from "http"
-import fetch from "node-fetch"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
 import {
@@ -57,15 +56,14 @@ export class TepperRunner {
       }
     }
 
-    const endpoint = `${baseUrlServerOrExpress}${config.path}`
-
-    return this.run(endpoint, config)
+    return this.run(baseUrlServerOrExpress, config)
   }
 
   private static async run<ExpectedResponse, ErrorType>(
-    endpoint: string,
+    baseUrlServerOrExpress: string,
     config: TepperConfig,
   ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
+    const endpoint = `${baseUrlServerOrExpress}${config.path}`
     const endpointWithQuery = this.appendQuery(endpoint, config)
     const { body, headers } = this.insertBodyIfPresent(config)
 
@@ -81,7 +79,10 @@ export class TepperRunner {
         cookie: cookies,
       },
       redirect: "manual",
-      ...(config.timeout ? { timeout: config.timeout } : {}),
+      ...(config.timeout
+        ? { signal: AbortSignal.timeout(config.timeout) }
+        : {}),
+      duplex: "half",
     })
 
     const text = await response.text()
@@ -105,8 +106,9 @@ export class TepperRunner {
     if (result.status === 302 && config.redirects > 0) {
       const newLocation = result.headers.get("Location") as string
 
-      return this.run(newLocation, {
+      return this.run(baseUrlServerOrExpress, {
         ...config,
+        path: newLocation,
         method: "GET",
         body: null,
         redirects: config.redirects - 1,
