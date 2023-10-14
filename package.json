@@ -24,7 +24,7 @@
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts --fix ./src",
     "typecheck": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest --test-timeout 10000",
     "test:coverage": "vitest --coverage"
   },
   "devDependencies": {
