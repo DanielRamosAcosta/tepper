@@ -24,6 +24,7 @@ export default function tepper(
     expectToEqual: (a, b) => {
       assert.strict.deepStrictEqual(a, b)
     },
+    fetch: (...args) => fetch(...args),
     ...config,
   })
 }

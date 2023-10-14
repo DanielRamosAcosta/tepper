@@ -19,4 +19,5 @@ export type TepperConfig = {
   readonly customHeaders: Record<string, string>
   readonly cookies: Record<string, string>
   readonly expectToEqual: (a: unknown, b: unknown) => void
+  readonly fetch: typeof fetch
 }
