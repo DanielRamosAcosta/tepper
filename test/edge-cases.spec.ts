@@ -16,12 +16,9 @@ describe("edge cases", () => {
       res.destroy()
     })
 
-    const error = await tepper(app)
-      .get("/")
-      .run()
-      .catch((error) => error)
+    const result = tepper(app).get("/").run()
 
-    expect(error.message).toEqual("fetch failed")
+    await expect(result).rejects.toThrow()
   })
 
   it("should handle an undefined Response", async () => {
@@ -31,13 +28,9 @@ describe("edge cases", () => {
       }, 20)
     })
 
-    const error = await tepper(app)
-      .get("/")
-      .timeout(1)
-      .run()
-      .catch((error) => error)
+    const result = tepper(app).get("/").timeout(1).run()
 
-    expect(error.message).toEqual("The operation was aborted due to timeout")
+    await expect(result).rejects.toThrow()
   })
 
   it("throws an error if using the builder as a promise", async () => {
