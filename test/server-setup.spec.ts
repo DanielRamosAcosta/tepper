@@ -36,7 +36,7 @@ describe("server setup", () => {
     const app = express().get("/hello", (_req, res) => {
       res.send("world")
     })
-    const server = await listenAppPromised(app, 4000, "127.0.0.1")
+    const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
     const { text, status } = await tepper(server).get("/hello").run()
 
@@ -64,9 +64,9 @@ describe("server setup", () => {
     const app = express().get("/", (_req, res) => {
       res.send("hey")
     })
-    const server = await listenAppPromised(app, 4001, "127.0.0.1")
+    const server = await listenAppPromised(app, 4002, "127.0.0.1")
 
-    const { text, status } = await tepper(`http://127.0.0.1:4001`)
+    const { text, status } = await tepper(`http://127.0.0.1:4002`)
       .get("/")
       .run()
 
