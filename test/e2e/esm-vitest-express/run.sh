@@ -16,12 +16,15 @@ EOF
 
 cat << EOF > app.test.js
 import { describe, expect, it } from "vitest"
+import nodeFetch from "node-fetch"
 import tepper from "tepper"
 import { app } from "./app.js"
 
 describe("app", () => {
   it("works", async () => {
-    const { status, body } = await tepper(app)
+    const config = "fetch" in globalThis ? {} : { fetch: nodeFetch }
+
+    const { status, body } = await tepper(app, config)
       .get("/")
       .expect(200)
       .expectBody({ status: "ok" })
@@ -34,6 +37,6 @@ describe("app", () => {
 EOF
 
 npm init --yes
-npm install --save-dev vitest
+npm install --save-dev vitest node-fetch
 npm link --save-dev ../../..
 npx vitest --run
