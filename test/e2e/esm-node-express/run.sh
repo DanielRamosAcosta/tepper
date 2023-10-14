@@ -2,9 +2,11 @@
 
 set -e
 
-rm -rf node_modules app.js app.test.js package.json package-lock.json
+cd test/e2e/esm-node-express
 
-cat << EOF > app.js
+rm -rf node_modules app.mjs app.test.mjs package.json package-lock.json
+
+cat << EOF > app.mjs
 import express from "express"
 
 export const app = express().get("/", (req, res) => {
@@ -12,11 +14,11 @@ export const app = express().get("/", (req, res) => {
 })
 EOF
 
-cat << EOF > app.test.js
+cat << EOF > app.test.mjs
 import { describe, it } from "node:test"
 import assert from "node:assert/strict"
 import tepper from "tepper"
-import { app } from "./app.js"
+import { app } from "./app.mjs"
 
 describe("app", () => {
   it("works", async () => {
@@ -33,5 +35,6 @@ describe("app", () => {
 EOF
 
 npm init --yes
-npm link --save-dev ../..
-node --test
+npm install --save express
+npm link --save-dev ../../..
+node --test --test-reporter spec

@@ -2,6 +2,8 @@
 
 set -e
 
+cd test/e2e/esm-vitest-express
+
 rm -rf node_modules app.js app.test.js package.json package-lock.json
 
 cat << EOF > app.js
@@ -33,5 +35,5 @@ EOF
 
 npm init --yes
 npm install --save-dev vitest
-npm link --save-dev ../..
+npm link --save-dev ../../..
 npx vitest --run
