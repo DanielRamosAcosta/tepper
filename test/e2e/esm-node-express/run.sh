@@ -26,7 +26,7 @@ EOF
 cat << EOF > app.test.mjs
 import { describe, it } from "node:test"
 import assert from "node:assert/strict"
-import tepper from "tepper"
+import { tepper } from "tepper"
 import { app } from "./app.mjs"
 
 describe("app", () => {

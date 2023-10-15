@@ -1,4 +1,4 @@
-import originalTepper from "../../src/tepper"
+import { tepper as originalTepper } from "../../src/tepper"
 import nodeFetch from "node-fetch"
 import { BaseUrlServerOrExpress } from "../../src/BaseUrlServerOrExpress"
 import { TepperConfig } from "../../src/TepperConfig"

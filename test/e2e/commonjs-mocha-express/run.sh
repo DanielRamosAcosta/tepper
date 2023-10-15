@@ -2,23 +2,25 @@
 
 set -e
 
-cd test/e2e/esm-vitest-express
+cd test/e2e/commonjs-mocha-express
 
 rm -rf node_modules app.js app.test.js package.json package-lock.json
 
 cat << EOF > app.js
-import express from "express"
+const express = require("express")
 
-export const app = express().get("/", (req, res) => {
+const app = express().get("/", (req, res) => {
   res.json({ status: "ok" })
 })
+
+module.exports = { app }
 EOF
 
 cat << EOF > app.test.js
-import { describe, expect, it } from "vitest"
-import nodeFetch from "node-fetch"
-import { tepper } from "tepper"
-import { app } from "./app.js"
+const nodeFetch = require("node-fetch")
+const { expect } = require("chai")
+const { tepper } = require("tepper")
+const { app } = require("./app.js")
 
 describe("app", () => {
   it("works", async () => {
@@ -30,13 +32,13 @@ describe("app", () => {
       .expectBody({ status: "ok" })
       .run()
 
-    expect(status).toBe(200)
-    expect(body).toEqual({ status: "ok" })
+    expect(status).to.equal(200)
+    expect(body).to.deep.equal({ status: "ok" })
   })
 })
 EOF
 
 npm init --yes
-npm install --save-dev vitest node-fetch
+npm install --save-dev mocha chai node-fetch@2
 npm link --save-dev ../../..
-npx vitest --run
+npx mocha "*.test.js"

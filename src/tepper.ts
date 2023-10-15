@@ -3,7 +3,7 @@ import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
 import { TepperBuilder } from "./TepperBuilder.js"
 import { TepperConfig } from "./TepperConfig.js"
 
-export default function tepper(
+export function tepper(
   baseUrlExpressOrServer: BaseUrlServerOrExpress,
   config?: Partial<TepperConfig>,
 ) {
