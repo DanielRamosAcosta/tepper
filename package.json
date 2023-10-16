@@ -6,10 +6,10 @@
   "module": "dist/esm/index.js",
   "exports": {
     ".": {
-      "types": "./build/types/tepper.d.ts",
-      "require": "./build/cjs/tepper.js",
-      "import": "./build/esm/tepper.js",
-      "default": "./build/esm/tepper.js"
+      "types": "./dist/types/tepper.d.ts",
+      "require": "./dist/cjs/tepper.js",
+      "import": "./dist/esm/tepper.js",
+      "default": "./dist/esm/tepper.js"
     }
   },
   "homepage": "https://github.com/DanielRamosAcosta/tepper",
