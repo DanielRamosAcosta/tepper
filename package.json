@@ -6,8 +6,10 @@
   "module": "dist/mjs/index.js",
   "exports": {
     ".": {
-      "import": "./dist/mjs/tepper.js",
-      "require": "./dist/cjs/tepper.js"
+      "types": "./build/types/tepper.d.ts",
+      "require": "./build/cjs/tepper.js",
+      "import": "./build/esm/tepper.js",
+      "default": "./build/esm/tepper.js"
     }
   },
   "homepage": "https://github.com/DanielRamosAcosta/tepper",
@@ -20,7 +22,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf coverage dist tmp",
-    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && ./fixup",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json && ./fixup",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts --fix ./src",
     "typecheck": "tsc --noEmit",
