@@ -7,7 +7,8 @@ cd test/e2e/nestjs
 
 rm -rf project-name
 
-yes npm | npx @nestjs/cli new project-name
+npm install --global @nestjs/cli
+yes npm | nest new project-name
 
 cd project-name
 
