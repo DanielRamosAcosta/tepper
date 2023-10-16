@@ -5,23 +5,36 @@ set -x
 
 cd test/e2e/nestjs
 
-rm -rf project-name
+rm -rf project-name clean.js
 
 npm install --global @nestjs/cli
 yes npm | nest new project-name
 
+cat << EOF > clean.js
+const fs = require("fs")
+
+const content = fs.readFileSync("./project-name/test/app.e2e-spec.ts", "utf8")
+
+const contentWithTepper = content
+  .replace(
+    "import * as request from 'supertest'",
+    "import { tepper } from 'tepper'",
+  )
+  .replace(
+    "return request(app.getHttpServer())",
+    "return tepper(app.getHttpServer())",
+  )
+
+console.log(contentWithTepper)
+
+EOF
+
+node clean.js > ./project-name/test/app.new.e2e-spec.ts
+
+mv ./project-name/test/app.new.e2e-spec.ts ./project-name/test/app.e2e-spec.ts
+
 cd project-name
 
 npm install --save-dev ../../../..
-
-sed -ie '3d' test/app.e2e-spec.ts
-sed -i '' '3i\
-import { tepper } from "tepper"
-' test/app.e2e-spec.ts
-
-sed -ie '19d' test/app.e2e-spec.ts
-sed -i '' '19i\
-    return tepper(app.getHttpServer())
-' test/app.e2e-spec.ts
 
 npm run test:e2e
