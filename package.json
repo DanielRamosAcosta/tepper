@@ -4,6 +4,7 @@
   "description": "Modern library for testing HTTP servers",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "./dist/types/tepper.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/tepper.d.ts",
