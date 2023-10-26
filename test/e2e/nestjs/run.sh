@@ -36,6 +36,22 @@ const contentWithTepper = content
     ".expect('Hello World!');",
     ".expect('Hello World!').run();",
   )
+EOF
+
+if [ "$node_major_version" -eq 16 ]; then
+  cat << EOF >> clean.js
+    .replace(
+      "import { tepper } from 'tepper'",
+      "import { tepper } from 'tepper';\nimport fetch from 'node-fetch'",
+    )
+    .replace(
+      "return tepper(app.getHttpServer())",
+      "return tepper(app.getHttpServer(), { fetch })",
+    )
+EOF
+fi
+
+cat << EOF >> clean.js
 
 console.log(contentWithTepper)
 
