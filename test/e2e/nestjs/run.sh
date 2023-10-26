@@ -24,6 +24,10 @@ const contentWithTepper = content
     "return request(app.getHttpServer())",
     "return tepper(app.getHttpServer())",
   )
+  .replace(
+    ".expect('Hello World!');",
+    ".expect('Hello World!').run();",
+  )
 
 console.log(contentWithTepper)
 
