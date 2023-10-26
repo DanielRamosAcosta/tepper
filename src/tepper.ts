@@ -22,12 +22,6 @@ export function tepper(
     customHeaders: {},
     cookies: {},
     expectToEqual: (a, b) => {
-      // eslint-disable-next-line no-console
-      console.log("Strict log", assert)
-      // eslint-disable-next-line no-console
-      console.log("Strict log", assert.strict)
-      // eslint-disable-next-line no-console
-      console.log("Strict log", assert.strict.deepStrictEqual)
       assert.deepStrictEqual(a, b)
     },
     fetch: (...args) => fetch(...args),
