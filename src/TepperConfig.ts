@@ -5,19 +5,15 @@ export type TepperConfig = {
   readonly path: string
   readonly body: string | object | null
   readonly isForm: boolean
-  readonly query: object | null
-  readonly redirects: number
-  readonly expectedStatus: number | null
-  readonly expectedBody:
-    | string
-    | Record<string, unknown>
-    | Array<unknown>
-    | null
-  readonly timeout: number | null
-  readonly jwt: string | null
-  readonly debug: Partial<DebugOptions> | null
-  readonly customHeaders: Record<string, string>
-  readonly cookies: Record<string, string>
+  query: object | null
+  redirects: number
+  expectedStatus: number | null
+  expectedBody: string | Record<string, unknown> | Array<unknown> | null
+  timeout: number | null
+  jwt: string | null
+  debug: boolean
+  customHeaders: Record<string, string>
+  cookies: Record<string, string>
   readonly expectToEqual: (a: unknown, b: unknown) => void
   readonly fetch: (...args: any[]) => Promise<any>
 }

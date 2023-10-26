@@ -37,7 +37,7 @@ describe("edge cases", () => {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      await tepper("").expect(200)
+      await tepper("").get("").expect(200)
     } catch (error: any) {
       expect(error.message).toEqual(
         "Do not place await in the builder, use .run() method",

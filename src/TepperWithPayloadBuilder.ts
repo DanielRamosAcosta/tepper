@@ -6,73 +6,17 @@ import { TepperResult } from "./TepperResult.js"
 import { TepperRunner } from "./TepperRunner.js"
 import { StandardError } from "./StandardError"
 
-export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
+export class TepperWithPayloadBuilder<
+  ExpectedResponse,
+  ErrorType = StandardError,
+> {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,
   ) {}
 
-  public get<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      {
-        ...this.config,
-        method: "GET",
-        path,
-      },
-    )
-  }
-
-  public post<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      {
-        ...this.config,
-        method: "POST",
-        path,
-      },
-    )
-  }
-
-  public put<ExpectedResponse = any, ErrorType = StandardError>(path: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      {
-        ...this.config,
-        method: "PUT",
-        path,
-      },
-    )
-  }
-
-  public patch<ExpectedResponse = any, ErrorType = StandardError>(
-    path: string,
-  ) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      {
-        ...this.config,
-        method: "PATCH",
-        path,
-      },
-    )
-  }
-
-  public delete<ExpectedResponse = any, ErrorType = StandardError>(
-    path: string,
-  ) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      {
-        ...this.config,
-        method: "DELETE",
-        path,
-      },
-    )
-  }
-
   public send(body: string | object) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -82,7 +26,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public sendForm(form: object) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -93,7 +37,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public redirects(amount: number) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -103,7 +47,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public timeout(timeout: number) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -113,7 +57,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public authWith(jwt: string) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -123,7 +67,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public withQuery(query: ParsedUrlQueryInput) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -133,7 +77,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public withHeaders(headers: Record<string, string>) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -143,7 +87,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public withCookies(cookies: Record<string, string>) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -153,7 +97,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public debug() {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -181,7 +125,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public expectStatus(status: number) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,
@@ -191,7 +135,7 @@ export class TepperBuilder<ExpectedResponse, ErrorType = StandardError> {
   }
 
   public expectBody(body: string | Record<string, unknown> | Array<unknown>) {
-    return new TepperBuilder<ExpectedResponse, ErrorType>(
+    return new TepperWithPayloadBuilder<ExpectedResponse, ErrorType>(
       this.baseUrlServerOrExpress,
       {
         ...this.config,

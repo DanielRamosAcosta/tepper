@@ -97,7 +97,7 @@ export class TepperRunner {
       ) as ExpectedResponse & ErrorType,
     }
 
-    if (config.debug && config.debug.body) {
+    if (config.debug) {
       // eslint-disable-next-line no-console
       console.dir(result.body, {
         depth: Infinity,

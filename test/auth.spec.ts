@@ -11,7 +11,7 @@ describe("auth", () => {
     const jwt =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 
-    const { text } = await tepper(app).authWith(jwt).get("/").run()
+    const { text } = await tepper(app).get("/").authWith(jwt).run()
 
     expect(text).toEqual(`Bearer ${jwt}`)
   })
