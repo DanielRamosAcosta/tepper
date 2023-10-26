@@ -77,14 +77,12 @@ export class TepperRunner<ExpectedResponse, ErrorType> {
   private cleanStackTrace(error: unknown) {
     if (!(error instanceof Error)) return error
 
-    const cleanedStack = (error.stack || "")
+    error.stack = (error.stack || "")
       .split("\n")
       .filter((stackLine) => !/at.+ServerLauncher\.ts/.test(stackLine))
       .filter((stackLine) => !/at.+tepper\.ts/.test(stackLine))
       .filter((stackLine) => !/at.+Object\.expectToEqual/.test(stackLine))
       .join("\n")
-
-    error.stack = cleanedStack
 
     return error
   }

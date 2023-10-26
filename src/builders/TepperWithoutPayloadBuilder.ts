@@ -80,6 +80,7 @@ export class TepperWithoutPayloadBuilder<
     return runner.launchAndRun(this.baseUrlServerOrExpress, this.config)
   }
 
+  // noinspection JSUnusedLocalSymbols
   private then() {
     throw new Error("Do not place await in the builder, use .run() method")
   }
