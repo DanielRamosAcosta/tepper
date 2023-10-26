@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
 import { TepperBuilder } from "./TepperBuilder.js"
 import { TepperConfig } from "./TepperConfig.js"
@@ -22,7 +22,10 @@ export function tepper(
     customHeaders: {},
     cookies: {},
     expectToEqual: (a, b) => {
-      assert.deepStrictEqual(a, b)
+      console.log("Strict log", assert)
+      console.log("Strict log", assert.strict)
+      console.log("Strict log", assert.strict.deepStrictEqual)
+      assert.strict.deepStrictEqual(a, b)
     },
     fetch: (...args) => fetch(...args),
     ...config,
