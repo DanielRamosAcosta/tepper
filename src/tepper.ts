@@ -1,4 +1,4 @@
-import assert from "node:assert"
+import { strict as assert } from "node:assert"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
 import { TepperBuilder } from "./TepperBuilder.js"
 import { TepperConfig } from "./TepperConfig.js"
@@ -28,7 +28,7 @@ export function tepper(
       console.log("Strict log", assert.strict)
       // eslint-disable-next-line no-console
       console.log("Strict log", assert.strict.deepStrictEqual)
-      assert.strict.deepStrictEqual(a, b)
+      assert.deepStrictEqual(a, b)
     },
     fetch: (...args) => fetch(...args),
     ...config,
