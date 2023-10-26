@@ -1,4 +1,4 @@
-import { DebugOptions } from "./DebugOptions"
+import { DebugOptions } from "./DebugOptions.js"
 
 export type TepperConfig = {
   readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -19,4 +19,5 @@ export type TepperConfig = {
   readonly customHeaders: Record<string, string>
   readonly cookies: Record<string, string>
   readonly expectToEqual: (a: unknown, b: unknown) => void
+  readonly fetch: (...args: any[]) => Promise<any>
 }

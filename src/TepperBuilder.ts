@@ -1,9 +1,9 @@
 import { ParsedUrlQueryInput } from "querystring"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import { DebugOptions } from "./DebugOptions"
-import { TepperConfig } from "./TepperConfig"
-import { TepperResult } from "./TepperResult"
-import { TepperRunner } from "./TepperRunner"
+import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
+import { DebugOptions } from "./DebugOptions.js"
+import { TepperConfig } from "./TepperConfig.js"
+import { TepperResult } from "./TepperResult.js"
+import { TepperRunner } from "./TepperRunner.js"
 
 type StandardError = {
   error: {

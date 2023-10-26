@@ -1,6 +1,6 @@
 import { it, describe } from "vitest"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 
 describe("sending JSON", () => {
   it("should work with .send()", async () => {

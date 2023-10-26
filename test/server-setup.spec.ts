@@ -1,7 +1,7 @@
 import { it, expect, describe } from "vitest"
 import http from "http"
 import express from "express"
-import tepper from "../src/tepper"
+import { tepper } from "./utils/tepperWrapper.js"
 import { closePromised } from "../src/utils/closePromised"
 import { listenAppPromised } from "../src/utils/listenPromised"
 import { expectServerToBeClosed } from "./utils/expectServerToBeClosed"
@@ -36,7 +36,7 @@ describe("server setup", () => {
     const app = express().get("/hello", (_req, res) => {
       res.send("world")
     })
-    const server = await listenAppPromised(app, 4000, "127.0.0.1")
+    const server = await listenAppPromised(app, 4001, "127.0.0.1")
 
     const { text, status } = await tepper(server).get("/hello").run()
 
@@ -64,9 +64,9 @@ describe("server setup", () => {
     const app = express().get("/", (_req, res) => {
       res.send("hey")
     })
-    const server = await listenAppPromised(app, 4001, "127.0.0.1")
+    const server = await listenAppPromised(app, 4002, "127.0.0.1")
 
-    const { text, status } = await tepper(`http://127.0.0.1:4001`)
+    const { text, status } = await tepper(`http://127.0.0.1:4002`)
       .get("/")
       .run()
 

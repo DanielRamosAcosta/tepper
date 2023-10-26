@@ -1,17 +1,19 @@
 import { Express } from "express"
 import { Server } from "http"
-import fetch from "node-fetch"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
-import { listenAppPromised, listenServerPromised } from "./utils/listenPromised"
-import { getBaseUrl } from "./utils/getBaseUrl"
-import { closePromised } from "./utils/closePromised"
-import { safeJsonParse } from "./utils/safeJsonParse"
-import { TepperConfig } from "./TepperConfig"
-import { TepperResult } from "./TepperResult"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import { objectToFormData } from "./forms/objectToFormData"
-import { objectToQueryString } from "./queries/objectToQueryString"
+import {
+  listenAppPromised,
+  listenServerPromised,
+} from "./utils/listenPromised.js"
+import { getBaseUrl } from "./utils/getBaseUrl.js"
+import { closePromised } from "./utils/closePromised.js"
+import { safeJsonParse } from "./utils/safeJsonParse.js"
+import { TepperConfig } from "./TepperConfig.js"
+import { TepperResult } from "./TepperResult.js"
+import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
+import { objectToFormData } from "./forms/objectToFormData.js"
+import { objectToQueryString } from "./queries/objectToQueryString.js"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
@@ -54,21 +56,21 @@ export class TepperRunner {
       }
     }
 
-    const endpoint = `${baseUrlServerOrExpress}${config.path}`
-
-    return this.run(endpoint, config)
+    return this.run(baseUrlServerOrExpress, config)
   }
 
   private static async run<ExpectedResponse, ErrorType>(
-    endpoint: string,
+    baseUrlServerOrExpress: string,
     config: TepperConfig,
   ): Promise<TepperResult<ExpectedResponse, ErrorType>> {
+    const endpoint = `${baseUrlServerOrExpress}${config.path}`
     const endpointWithQuery = this.appendQuery(endpoint, config)
     const { body, headers } = this.insertBodyIfPresent(config)
 
     const cookies = this.parseCookies(config.cookies)
 
-    const response = await fetch(endpointWithQuery, {
+    const configFetch: typeof fetch = config.fetch
+    const response = await configFetch(endpointWithQuery, {
       method: config.method,
       ...(body ? { body } : {}),
       headers: {
@@ -78,7 +80,10 @@ export class TepperRunner {
         cookie: cookies,
       },
       redirect: "manual",
-      ...(config.timeout ? { timeout: config.timeout } : {}),
+      ...(config.timeout
+        ? { signal: AbortSignal.timeout(config.timeout) }
+        : {}),
+      duplex: "half",
     })
 
     const text = await response.text()
@@ -102,8 +107,9 @@ export class TepperRunner {
     if (result.status === 302 && config.redirects > 0) {
       const newLocation = result.headers.get("Location") as string
 
-      return this.run(newLocation, {
+      return this.run(baseUrlServerOrExpress, {
         ...config,
+        path: newLocation,
         method: "GET",
         body: null,
         redirects: config.redirects - 1,

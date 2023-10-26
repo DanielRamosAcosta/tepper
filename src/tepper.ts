@@ -1,9 +1,9 @@
-import assert from "assert"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress"
-import { TepperBuilder } from "./TepperBuilder"
-import { TepperConfig } from "./TepperConfig"
+import { strict as assert } from "node:assert"
+import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
+import { TepperBuilder } from "./TepperBuilder.js"
+import { TepperConfig } from "./TepperConfig.js"
 
-export default function tepper(
+export function tepper(
   baseUrlExpressOrServer: BaseUrlServerOrExpress,
   config?: Partial<TepperConfig>,
 ) {
@@ -22,8 +22,9 @@ export default function tepper(
     customHeaders: {},
     cookies: {},
     expectToEqual: (a, b) => {
-      assert.strict.deepStrictEqual(a, b)
+      assert.deepStrictEqual(a, b)
     },
+    fetch: (...args) => fetch(args[0], args[1]),
     ...config,
   })
 }
