@@ -2,7 +2,7 @@ import { ParsedUrlQueryInput } from "querystring"
 import { BaseUrlServerOrExpress } from "../BaseUrlServerOrExpress.js"
 import { TepperConfig } from "../TepperConfig.js"
 import { TepperResult } from "../TepperResult.js"
-import { TepperRunner } from "../TepperRunner.js"
+import { ServerLauncher } from "../ServerLauncher.js"
 import { StandardError } from "../StandardError"
 
 export class TepperWithoutPayloadBuilder<
@@ -75,10 +75,9 @@ export class TepperWithoutPayloadBuilder<
   }
 
   public async run(): Promise<TepperResult<ExpectedResponse, ErrorType>> {
-    return TepperRunner.launchServerAndRun<ExpectedResponse, ErrorType>(
-      this.baseUrlServerOrExpress,
-      this.config,
-    )
+    const runner = new ServerLauncher<ExpectedResponse, ErrorType>()
+
+    return runner.launchAndRun(this.baseUrlServerOrExpress, this.config)
   }
 
   private then() {
