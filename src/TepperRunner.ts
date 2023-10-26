@@ -1,8 +1,5 @@
-import { Express } from "express"
-import { Server } from "http"
 import { Readable } from "stream"
 import { FormDataEncoder } from "form-data-encoder"
-import { listenAppPromised } from "./utils/listenPromised.js"
 import { safeJsonParse } from "./utils/safeJsonParse.js"
 import { TepperConfig } from "./TepperConfig.js"
 import { TepperResult } from "./TepperResult.js"
@@ -11,12 +8,6 @@ import { objectToFormData } from "./forms/objectToFormData.js"
 import { objectToQueryString } from "./queries/objectToQueryString.js"
 
 export class TepperRunner<ExpectedResponse, ErrorType> {
-  private static async instantiateExpress(
-    baseUrlServerOrExpress: Express,
-  ): Promise<Server> {
-    return await listenAppPromised(baseUrlServerOrExpress, 0, "127.0.0.1")
-  }
-
   public async run(
     baseUrl: BaseUrl,
     config: TepperConfig,
