@@ -3,8 +3,8 @@ import { DebugOptions } from "./DebugOptions.js"
 export type TepperConfig = {
   readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
   readonly path: string
-  readonly body: string | object | null
-  readonly isForm: boolean
+  body: string | object | null
+  isForm: boolean
   query: object | null
   redirects: number
   expectedStatus: number | null

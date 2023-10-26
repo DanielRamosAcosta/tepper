@@ -1,10 +1,10 @@
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
-import { TepperConfig } from "./TepperConfig.js"
-import { StandardError } from "./StandardError"
+import { BaseUrlServerOrExpress } from "../BaseUrlServerOrExpress.js"
+import { TepperConfig } from "../TepperConfig.js"
+import { StandardError } from "../StandardError"
 import { TepperWithoutPayloadBuilder } from "./TepperWithoutPayloadBuilder"
 import { TepperWithPayloadBuilder } from "./TepperWithPayloadBuilder"
 
-export class TepperBaseBuilder {
+export class TepperBuilder {
   public constructor(
     private readonly baseUrlServerOrExpress: BaseUrlServerOrExpress,
     private readonly config: TepperConfig,

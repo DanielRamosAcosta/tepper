@@ -1,9 +1,9 @@
 import { ParsedUrlQueryInput } from "querystring"
-import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
-import { TepperConfig } from "./TepperConfig.js"
-import { TepperResult } from "./TepperResult.js"
-import { TepperRunner } from "./TepperRunner.js"
-import { StandardError } from "./StandardError"
+import { BaseUrlServerOrExpress } from "../BaseUrlServerOrExpress.js"
+import { TepperConfig } from "../TepperConfig.js"
+import { TepperResult } from "../TepperResult.js"
+import { TepperRunner } from "../TepperRunner.js"
+import { StandardError } from "../StandardError"
 
 export class TepperWithoutPayloadBuilder<
   ExpectedResponse,
