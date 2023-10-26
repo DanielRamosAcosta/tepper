@@ -1,8 +1,8 @@
 import { BaseUrlServerOrExpress } from "../BaseUrlServerOrExpress.js"
 import { TepperConfig } from "../TepperConfig.js"
-import { StandardError } from "../StandardError"
-import { TepperWithoutPayloadBuilder } from "./TepperWithoutPayloadBuilder"
-import { TepperWithPayloadBuilder } from "./TepperWithPayloadBuilder"
+import { StandardError } from "../StandardError.js"
+import { TepperWithoutPayloadBuilder } from "./TepperWithoutPayloadBuilder.js"
+import { TepperWithPayloadBuilder } from "./TepperWithPayloadBuilder.js"
 
 export class TepperBuilder {
   public constructor(

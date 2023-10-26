@@ -3,7 +3,7 @@ import { BaseUrlServerOrExpress } from "../BaseUrlServerOrExpress.js"
 import { TepperConfig } from "../TepperConfig.js"
 import { TepperResult } from "../TepperResult.js"
 import { ServerLauncher } from "../ServerLauncher.js"
-import { StandardError } from "../StandardError"
+import { StandardError } from "../StandardError.js"
 
 export class TepperWithoutPayloadBuilder<
   ExpectedResponse,

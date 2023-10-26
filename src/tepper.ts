@@ -1,7 +1,7 @@
 import { strict as assert } from "node:assert"
 import { BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
 import { TepperConfig } from "./TepperConfig.js"
-import { TepperBuilder } from "./builders/TepperBuilder"
+import { TepperBuilder } from "./builders/TepperBuilder.js"
 
 export function tepper(
   baseUrlExpressOrServer: BaseUrlServerOrExpress,
