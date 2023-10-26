@@ -52,19 +52,16 @@ export class TepperWithoutPayloadBuilder<
   public expect(
     target: string | number | Record<string, unknown> | Array<unknown>,
   ) {
-    if (typeof target === "number") {
-      return this.expectStatus(target)
+    switch (typeof target) {
+      case "number":
+        return this.expectStatus(target)
+      case "string":
+        return this.expectBody(target)
+      case "object":
+        return this.expectBody(target)
+      default:
+        throw new Error(`I dont know what to expect from ${target}`)
     }
-
-    if (typeof target === "string") {
-      return this.expectBody(target)
-    }
-
-    if (typeof target === "object") {
-      return this.expectBody(target)
-    }
-
-    throw new Error(`I dont know what to expect from ${target}`)
   }
 
   public expectStatus(status: number) {
