@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest"
 import { createReadStream } from "fs"
 import { Readable } from "stream"
+import { FormDataEncoder } from "form-data-encoder"
+import { FormData } from "formdata-node"
 import {
   ObjectEntries,
   objectToFormData,
   toPlainForm,
-} from "./objectToFormData"
-import { FormDataEncoder } from "form-data-encoder"
-import { FormData } from "formdata-node"
+} from "./objectToFormData.js"
 
 async function toStringRepresentation(form: FormData) {
   const encoder = new FormDataEncoder(form)

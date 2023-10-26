@@ -9,7 +9,7 @@ import { closePromised } from "./utils/closePromised.js"
 import { TepperConfig } from "./TepperConfig.js"
 import { TepperResult } from "./TepperResult.js"
 import { BaseUrl, BaseUrlServerOrExpress } from "./BaseUrlServerOrExpress.js"
-import { TepperRunner } from "./TepperRunner"
+import { TepperRunner } from "./TepperRunner.js"
 
 function isExpressApp(
   baseUrlServerOrExpress: BaseUrlServerOrExpress,
