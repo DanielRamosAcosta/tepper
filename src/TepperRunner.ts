@@ -69,7 +69,8 @@ export class TepperRunner {
 
     const cookies = this.parseCookies(config.cookies)
 
-    const response = await config.fetch(endpointWithQuery, {
+    const configFetch: typeof fetch = config.fetch
+    const response = await configFetch(endpointWithQuery, {
       method: config.method,
       ...(body ? { body } : {}),
       headers: {
