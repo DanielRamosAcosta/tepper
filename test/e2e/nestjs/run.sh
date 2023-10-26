@@ -63,6 +63,6 @@ mv ./project-name/test/app.new.e2e-spec.ts ./project-name/test/app.e2e-spec.ts
 
 cd project-name
 
-npm install --save-dev ../../../..
+npm install --save-dev ../../../.. node-fetch@2 @types/node-fetch
 
 npm run test:e2e
