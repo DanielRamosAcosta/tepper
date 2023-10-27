@@ -6,12 +6,12 @@ describe("headers", () => {
   it("supports sending custom headers", async () => {
     const CUSTOM_HEADER = "X-Custom-Header"
     const CUSTOM_HEADER_VALUE = "custom-header-value"
-    const app = express().get("/", (req, res) => {
+    const app = express().post("/", (req, res) => {
       res.send(req.headers[CUSTOM_HEADER.toLowerCase()])
     })
 
     const { text } = await tepper(app)
-      .get("/")
+      .post("/")
       .withHeaders({
         [CUSTOM_HEADER]: CUSTOM_HEADER_VALUE,
       })

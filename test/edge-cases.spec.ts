@@ -22,13 +22,13 @@ describe("edge cases", () => {
   })
 
   it("should handle an undefined Response", async () => {
-    const app = express().get("/", (_req, res) => {
+    const app = express().post("/", (_req, res) => {
       setTimeout(() => {
         res.end()
       }, 20)
     })
 
-    const result = tepper(app).get("/").timeout(1).run()
+    const result = tepper(app).post("/").timeout(1).run()
 
     await expect(result).rejects.toThrow()
   })
