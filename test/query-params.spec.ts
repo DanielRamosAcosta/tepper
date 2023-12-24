@@ -4,12 +4,12 @@ import { tepper } from "./utils/tepperWrapper.js"
 
 describe("query params", () => {
   it("sends all the query params", async () => {
-    const app = express().get("/", (req, res) => {
+    const app = express().post("/", (req, res) => {
       res.send(req.query)
     })
 
     const { body } = await tepper(app)
-      .get("")
+      .post("")
       .withQuery({ hello: "world" })
       .run()
 

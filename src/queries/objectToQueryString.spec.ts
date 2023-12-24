@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { objectToQueryString } from "./objectToQueryString"
+import { objectToQueryString } from "./objectToQueryString.js"
 
 describe("objectToQueryString", () => {
   it("serializes a query with strings", () => {

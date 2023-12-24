@@ -5,7 +5,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier", "plugin:import/recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -19,6 +19,8 @@
     "@typescript-eslint/explicit-member-accessibility": 2,
     "@typescript-eslint/no-explicit-any": 0,
     "prefer-const": "warn",
-    "no-console": "warn"
+    "no-console": "warn",
+    "import/extensions": ["warn", "always"],
+    "import/no-unresolved": "off"
   }
 }

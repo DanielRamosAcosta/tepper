@@ -10,12 +10,12 @@ describe("headers", () => {
     const app = express()
     app.use(cookieParser())
 
-    app.get("/", (req, res) => {
+    app.post("/", (req, res) => {
       res.send(req.cookies)
     })
 
     const { body } = await tepper(app)
-      .get("/")
+      .post("/")
       .withCookies({
         [CUSTOM_COOKIE]: CUSTOM_COOKIE_VALUE,
       })
