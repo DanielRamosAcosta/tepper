@@ -4,11 +4,11 @@ set -e
 
 node_major_version=$(node --version | cut -d. -f1 | cut -dv -f2)
 
-if [ "$node_major_version" -lt 16 ]; then
-  echo "Node.js version is less than 16. Exiting with status 0."
+if [ "$node_major_version" -lt 18 ]; then
+  echo "Node.js version is less than 18. Exiting with status 0."
   exit 0
 else
-  echo "Node.js version is 16 or greater. Continuing..."
+  echo "Node.js version is 18 or greater. Continuing..."
 fi
 
 cd test/e2e/esm-vitest-express
