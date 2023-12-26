@@ -2,15 +2,6 @@
 
 set -e
 
-node_major_version=$(node --version | cut -d. -f1 | cut -dv -f2)
-
-if [ "$node_major_version" -lt 18 ]; then
-  echo "Node.js version is less than 18. Exiting with status 0."
-  exit 0
-else
-  echo "Node.js version is 18 or greater. Continuing..."
-fi
-
 cd test/e2e/esm-node-express
 
 rm -rf node_modules app.mjs app.test.mjs package.json package-lock.json
