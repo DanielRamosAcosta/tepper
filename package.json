@@ -50,7 +50,7 @@
     "express": "4.21.1",
     "multer": "1.4.4",
     "node-fetch": "^3.3.2",
-    "prettier": "3.4.0",
+    "prettier": "3.4.1",
     "rimraf": "5.0.10",
     "typescript": "5.7.2",
     "vitest": "1.6.0"
