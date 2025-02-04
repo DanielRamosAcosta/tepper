@@ -39,7 +39,7 @@
     "@types/node-fetch": "2.6.12",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
-    "@vitest/coverage-v8": "^1.1.0",
+    "@vitest/coverage-v8": "^3.0.0",
     "cookie-parser": "1.4.7",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.0",
@@ -53,7 +53,7 @@
     "prettier": "3.4.2",
     "rimraf": "5.0.10",
     "typescript": "5.7.3",
-    "vitest": "1.6.0"
+    "vitest": "3.0.5"
   },
   "dependencies": {
     "form-data-encoder": "^4.0.0",
